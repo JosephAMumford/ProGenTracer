@@ -13,5 +13,6 @@ namespace ProGenTracer
     /// </summary>
     public partial class App : Application
     {
+
     }
 }
