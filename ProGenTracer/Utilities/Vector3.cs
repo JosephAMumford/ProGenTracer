@@ -121,7 +121,19 @@ namespace ProGenTracer.Utilities
             return "(" + x.ToString() + "," + y.ToString() + "," + z.ToString() + ")";
         }
 
+
+
         //Static Functions
+        /// <summary>
+        /// Get angle from Vector a to Vector B
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public double Angle(Vector3 a, Vector3 b)
+        {
+            return 0;
+        }
         /// <summary>
         /// Get the dot product of Vector a and Vector b
         /// </summary>
@@ -132,7 +144,6 @@ namespace ProGenTracer.Utilities
         {
             return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
-
         /// <summary>
         /// Get the length of Vector a
         /// </summary>
