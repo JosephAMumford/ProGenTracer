@@ -28,15 +28,11 @@ namespace ProGenTracer
             InitializeComponent();
         }
 
-        private void NormalizeVectorButton(object sender, RoutedEventArgs e)
+        private void GenerateRender(object sender, RoutedEventArgs e)
         {
-            //BindingExpression xBind = VectorXTextBox.GetBindingExpression(TextBox.TextProperty);
-            //BindingExpression yBind = VectorYTextBox.GetBindingExpression(TextBox.TextProperty);
-            //BindingExpression zBind = VectorZTextBox.GetBindingExpression(TextBox.TextProperty);
-            //BindingExpression norm = NormalizedVectorUpdate.GetBindingExpression(TextBox.TextProperty);
-            Vector3 a = new Vector3(double.Parse(VectorXTextBox.Text), double.Parse(VectorYTextBox.Text), double.Parse(VectorZTextBox.Text));
-            a.Normalize();
-            NormalizedVectorUpdate.Content = a.ToString();
+            RayTracerForm.RunRenderer();   
+            //Window subWindow = new Window();
+            //subWindow.Show();
         }
     }
 }

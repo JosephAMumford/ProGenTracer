@@ -72,7 +72,6 @@ namespace ProGenTracer.Utilities
         public Vector3()
         {
         }
-
         /// <summary>
         /// Set Constructor with parameters x, y, and z
         /// </summary>
@@ -87,7 +86,6 @@ namespace ProGenTracer.Utilities
             magnitude = Magnitude();
             normalized = new Vector3(this);
         }
-
         /// <summary>
         /// Copy constructor
         /// </summary>
@@ -121,8 +119,6 @@ namespace ProGenTracer.Utilities
             return "(" + x.ToString() + "," + y.ToString() + "," + z.ToString() + ")";
         }
 
-
-
         //Static Functions
         /// <summary>
         /// Get angle from Vector a to Vector B
@@ -132,7 +128,37 @@ namespace ProGenTracer.Utilities
         /// <returns></returns>
         public double Angle(Vector3 a, Vector3 b)
         {
-            return 0;
+            return (Dot(a,b)) / (a.magnitude * b.magnitude);
+        }
+        /// <summary>
+        /// Get the Cross product of Vector a and Vector b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public Vector3 Cross(Vector3 a, Vector3 b)
+        {
+            return new Vector3((a.y*b.z)-(a.z*b.y),(a.z*b.x)-(a.x*b.z),(a.x*b.y)-(a.y*b.x));
+        }
+        /// <summary>
+        /// Get the distance from Vector a to Vector b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public double Distance(Vector3 a, Vector3 b)
+        {
+            return (a - b).Magnitude();
+        }
+        /// <summary>
+        /// Reflect Vector3 a by Normal n
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static Vector3 Reflect(Vector3 a, Vector3 n)
+        {
+            return new Vector3();
         }
         /// <summary>
         /// Get the dot product of Vector a and Vector b
@@ -140,7 +166,7 @@ namespace ProGenTracer.Utilities
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public double Dot(Vector3 a, Vector3 b)
+        public static double Dot(Vector3 a, Vector3 b)
         {
             return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
@@ -162,6 +188,7 @@ namespace ProGenTracer.Utilities
             y = y / magnitude;
             z = z / magnitude;
         }
+       
 
         //Operators
         /// <summary>

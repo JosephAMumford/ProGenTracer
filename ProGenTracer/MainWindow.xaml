@@ -5,18 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProGenTracer"
         mc:Ignorable="d"
-        Title="ProGen Tracer" Height="350" Width="525">
-    <Grid>
-        <Label x:Name="label_Copy" Content="X" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Width="18" Height="24" VerticalContentAlignment="Center" Padding="0" HorizontalContentAlignment="Center"/>
-        <Label x:Name="label_Copy2" Content="Vector" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="48"/>
-        <TextBox x:Name="VectorXTextBox" HorizontalAlignment="Left" Height="24" Margin="33,91,0,0" TextWrapping="Wrap" Text="x" VerticalAlignment="Top" Width="48"/>
-        <Label x:Name="label_Copy1" Content="Y" HorizontalAlignment="Left" Margin="86,91,0,0" VerticalAlignment="Top" Width="18" Height="24" VerticalContentAlignment="Center" Padding="0" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="VectorYTextBox" HorizontalAlignment="Left" Height="24" Margin="104,91,0,0" TextWrapping="Wrap" Text="y" VerticalAlignment="Top" Width="48"/>
-        <Label x:Name="label_Copy3" Content="Z" HorizontalAlignment="Left" Margin="157,91,0,0" VerticalAlignment="Top" Width="18" Height="24" VerticalContentAlignment="Center" Padding="0" HorizontalContentAlignment="Center"/>
-        <TextBox x:Name="VectorZTextBox" HorizontalAlignment="Left" Height="24" Margin="175,91,0,0" TextWrapping="Wrap" Text="z" VerticalAlignment="Top" Width="48"/>
-        <Label x:Name="label_Copy4" Content="Normalized Vector" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Width="109"/>
-        <Label x:Name="NormalizedVectorUpdate" Content="..." HorizontalAlignment="Left" Margin="10,146,0,0" VerticalAlignment="Top" Width="288" Height="26"/>
-        <Button x:Name="button" Click="NormalizeVectorButton"  Content="Normalize" HorizontalAlignment="Left" Margin="228,93,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
+        Title="ProGen Tracer" Height="480" Width="640">
+    <Grid Background="#FFBECDD6">
+        <Button x:Name="button" Click="GenerateRender"  Content="Generate" HorizontalAlignment="Center" Margin="279,421,279.6,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
 
     </Grid>
 </Window>
