@@ -31,8 +31,6 @@ namespace ProGenTracer
         private void GenerateRender(object sender, RoutedEventArgs e)
         {
             RayTracerForm.RunRenderer();   
-            //Window subWindow = new Window();
-            //subWindow.Show();
         }
     }
 }

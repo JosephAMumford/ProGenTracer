@@ -27,7 +27,7 @@ namespace ProGenTracer.Utilities
 
         public static Color operator *(Color c, double n)
         {
-            return new Color(c.R, c.G, c.B);
+            return new Color(c.R * n, c.G * n, c.B * n);
         }
 
         public static Color operator *(Color c, Color d)

@@ -62,8 +62,7 @@ namespace ProGenTracer
             Utilities.Color ret = Utilities.Color.Set(0, 0, 0);
             foreach (Light light in scene.Lights)
             {
-                Vector3 ldis = light.Position - pos;
-                ldis.Normalize();
+                Vector3 ldis = Vector3.Normalize(light.Position - pos);
                 Vector3 livec = ldis;
                 double neatIsect = TestRay(new Ray() { start = pos, direction = livec }, scene);
                 bool isInShadow = !((neatIsect > ldis.Magnitude()) || (neatIsect == 0));
@@ -71,8 +70,7 @@ namespace ProGenTracer
                 {
                     double illum = Vector3.Dot(livec, norm);
                     Utilities.Color lcolor = illum > 0 ? (light.Color * illum) : Utilities.Color.Set(0, 0, 0);
-                    rd.Normalize();
-                    double specular = Vector3.Dot(livec, rd);
+                    double specular = Vector3.Dot(livec, Vector3.Normalize(rd));
                     Utilities.Color scolor = specular > 0 ? (light.Color * Math.Pow(specular, thing.Surface.Roughness)) : Utilities.Color.Set(0, 0, 0);
                     ret = ret + (lcolor * thing.Surface.Diffuse(pos) +
                         scolor * thing.Surface.Specular(pos));
@@ -112,8 +110,7 @@ namespace ProGenTracer
 
         private Vector3 GetPoint(double x, double y, Camera camera)
         {
-            Vector3 newPoint = camera.forward + (camera.right * RecenterX(x) + camera.up * RecenterY(y));
-            return newPoint;
+            return Vector3.Normalize(camera.forward + ((camera.right * RecenterX(x)) + (camera.up * RecenterY(y))) );
         }
 
         internal void Render(Scene scene)

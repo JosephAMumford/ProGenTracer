@@ -66,11 +66,7 @@ namespace ProGenTracer.Utilities
 
         public override Vector3 Normal(Vector3 pos)
         {
-            Vector3 norm = pos - Center;
-
-            norm.Normalize();
-
-            return norm;
+            return Vector3.Normalize(pos - Center);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿//Created by Joseph Mumford 10/11/2017
+//This file is part of ProGen Tracer which is released under MIT License.  See license.txt for full details.
 
 using System;
 using System.Collections.Generic;
@@ -84,7 +85,6 @@ namespace ProGenTracer.Utilities
             this.y = y;
             this.z = z;
             magnitude = Magnitude();
-            normalized = new Vector3(this);
         }
         /// <summary>
         /// Copy constructor
@@ -95,6 +95,7 @@ namespace ProGenTracer.Utilities
             x = v.x;
             y = v.y;
             z = v.z;
+            magnitude = v.magnitude;
         }
 
         //Public Functions
@@ -136,7 +137,7 @@ namespace ProGenTracer.Utilities
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public Vector3 Cross(Vector3 a, Vector3 b)
+        public static Vector3 Cross(Vector3 a, Vector3 b)
         {
             return new Vector3((a.y*b.z)-(a.z*b.y),(a.z*b.x)-(a.x*b.z),(a.x*b.y)-(a.y*b.x));
         }
@@ -182,11 +183,23 @@ namespace ProGenTracer.Utilities
         /// <summary>
         /// Normalize the vector
         /// </summary>
-        public void Normalize()
+        public static Vector3 Normalize(Vector3 a)
         {
-            x = x / magnitude;
-            y = y / magnitude;
-            z = z / magnitude;
+            double mag = a.Magnitude();
+            double div = mag == 0 ? double.PositiveInfinity : (1 / mag);
+
+            if(mag == 0)
+            {
+                mag = double.PositiveInfinity;
+            }
+
+            a.x = a.x / mag;
+            a.y = a.y / mag;
+            a.z = a.z / mag;
+
+            return a;
+
+            //return (a * mag);
         }
        
 
