@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ProGenTracer.Utilities;
+using System.Drawing;
 
 namespace ProGenTracer
 {
@@ -30,7 +31,45 @@ namespace ProGenTracer
 
         private void GenerateRender(object sender, RoutedEventArgs e)
         {
-            RayTracerForm.RunRenderer();   
+            RenderWindow renderer = new RenderWindow();
+            RenderSettings rs = new RenderSettings();
+            rs.ImageHeight = 480;
+            rs.ImageWidth = 640;
+            renderer.SetWindow(rs);
+            renderer.RenderImage.Width = rs.ImageWidth;
+            renderer.RenderImage.Height = rs.ImageHeight;
+            //Bitmap newRender = new Bitmap(rs.ImageWidth, rs.ImageHeight);
+
+            //renderer.RenderImage;
+
+            PixelFormat pf = PixelFormats.Bgr32;
+            int bpp = (pf.BitsPerPixel + 7) / 8;
+            int rawStride = 4 * ((rs.ImageWidth * bpp + 3) / 4);
+            byte[] rawImage = new byte
+                [rawStride * rs.ImageHeight];
+
+            List<byte> ri = new List<byte>();
+
+            RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color) =>
+            {
+
+                ri.Add(color.B);
+                ri.Add(color.G);
+                ri.Add(color.R);
+                ri.Add(color.A);
+                
+                //newRender.SetPixel(x, y, color);
+                //
+                //bitmap.SetPixel(x, y, color);
+                //if (x == 0) pictureBox.Refresh();
+            });
+            rayTracer.Render(rayTracer.DefaultScene);
+
+            BitmapSource bitmap = BitmapSource.Create(rs.ImageWidth, rs.ImageHeight, 300, 300, pf, null, ri.ToArray(), rawStride);
+
+            renderer.RenderImage.Source = bitmap;
+
+            //RayTracerForm.RunRenderer();   
         }
     }
 }

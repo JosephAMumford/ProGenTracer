@@ -11,7 +11,7 @@ namespace ProGenTracer.Utilities
 {
     public class Vector3
     {
-        //Variables
+        //Public Variables
         /// <summary>
         /// x component of vector
         /// </summary>
@@ -186,7 +186,6 @@ namespace ProGenTracer.Utilities
         public static Vector3 Normalize(Vector3 a)
         {
             double mag = a.Magnitude();
-            double div = mag == 0 ? double.PositiveInfinity : (1 / mag);
 
             if(mag == 0)
             {
@@ -198,8 +197,6 @@ namespace ProGenTracer.Utilities
             a.z = a.z / mag;
 
             return a;
-
-            //return (a * mag);
         }
        
 

@@ -5,14 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProGenTracer.Utilities;
+//using System.Windows;
 using System.Windows.Forms;
 
 namespace ProGenTracer
 {
-    class MainSystem
-    {
 
-    }
 
     public delegate void Action<T, U, V>(T t, U u, V v);
 
@@ -20,7 +18,7 @@ namespace ProGenTracer
     {
         private int screenWidth;
         private int screenHeight;
-        private const int MaxDepth = 5;
+        private const int MaxDepth = 8;
 
         public Action<int, int, System.Drawing.Color> setPixel;
 
@@ -136,7 +134,7 @@ namespace ProGenTracer
                                 },
                                 new Sphere() {
                                     Center = new Vector3(0,1,0),
-                                    Radius = 1,
+                                    Radius = 0.25,
                                     Surface = Surfaces.Shiny
                                 },
                                 new Sphere() {
@@ -160,7 +158,8 @@ namespace ProGenTracer
                                 new Light() {
                                     Position = new Vector3(0,3.5,0),
                                     Color = Utilities.Color.Set(.21,.21,.35)
-                                }},
+                                }
+                },
                 Camera = Camera.Create(new Vector3(3, 2, 4), new Vector3(-1, .5, 0))
             };
     }
@@ -189,12 +188,25 @@ namespace ProGenTracer
         };
     }
 
+    public class MainSystem
+    {
+
+    }
+
+    public class RenderSettings
+    {
+        public int ImageWidth = 640;
+        public int ImageHeight = 480;
+    }
+
     public partial class RayTracerForm : Form
     {
         Bitmap bitmap;
         PictureBox pictureBox;
         const int width = 600;
         const int height = 600;
+
+        
 
         public RayTracerForm()
         {
@@ -232,6 +244,7 @@ namespace ProGenTracer
             Application.EnableVisualStyles();
 
             Application.Run(new RayTracerForm());
+
         }
     }
 }
