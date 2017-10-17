@@ -27,8 +27,8 @@ namespace ProGenTracer
 
         public void SetWindow(RenderSettings rs)
         {
-            RenderingWindow.Width = 660;
-            RenderingWindow.Height = 500;
+            RenderingWindow.Width = 320;
+            RenderingWindow.Height = 320;
             Show();
         }
     }

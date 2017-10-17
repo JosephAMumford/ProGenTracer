@@ -27,7 +27,7 @@ namespace ProGenTracer.Utilities
         /// <summary>
         /// Set color to standard background color
         /// </summary>
-        public static Color Background = Set(0.5, 0.5, 1.0);
+        public static Color Background = Set(0, 0, 0);
         /// <summary>
         /// Set color to standard default color
         /// </summary>
