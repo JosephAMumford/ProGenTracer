@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ProGenTracer.Utilities;
-using System.Drawing;
+//using System.Drawing;
 using System.Diagnostics;
 
 
@@ -33,8 +33,8 @@ namespace ProGenTracer
             InitializeComponent();
         }
 
-        static WriteableBitmap writeableBitmap;
-        static Window w;
+        //static WriteableBitmap writeableBitmap;
+        //static Window w;
         //static Image i;
 
 
@@ -69,49 +69,53 @@ namespace ProGenTracer
 
         //    }
 
-        Bitmap bitmap;
-        PictureBox pictureBox;
+        //Bitmap bitmap;
+        //PictureBox pictureBox;
+
+        Window w = new Window();
+
+        static WriteableBitmap writeableBitmap;
         
-        private void GenerateRender(object sender, RoutedEventArgs e)
+        private void GenerateRender3(object sender, RoutedEventArgs e)
         {
-            Form newForm = new Form();
-            RenderSettings rs = new RenderSettings();
-            rs.ImageHeight = 500;
-            rs.ImageWidth = 500;
+            //Form newForm = new Form();
+            //RenderSettings rs = new RenderSettings();
+            //rs.ImageHeight = 500;
+            //rs.ImageWidth = 500;
 
-            bitmap = new Bitmap(rs.ImageWidth, rs.ImageHeight);
-            pictureBox = new PictureBox();
-            pictureBox.Dock = DockStyle.Fill;
-            pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox.Image = bitmap;
+            //bitmap = new Bitmap(rs.ImageWidth, rs.ImageHeight);
+            //pictureBox = new PictureBox();
+            //pictureBox.Dock = DockStyle.Fill;
+            //pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
+            //pictureBox.Image = bitmap;
 
-            newForm.ClientSize = new System.Drawing.Size(rs.ImageWidth, rs.ImageHeight);
-            newForm.Controls.Add(pictureBox);
-            newForm.Text = "Rendering Image";
+            //newForm.ClientSize = new System.Drawing.Size(rs.ImageWidth, rs.ImageHeight);
+            //newForm.Controls.Add(pictureBox);
+            //newForm.Text = "Rendering Image";
 
-            newForm.Show();
+            //newForm.Show();
 
-            Random r = new Random();
-            int cr = 0;
-            int cg = 0;
-            int cb = 0;
+            //Random r = new Random();
+            //int cr = 0;
+            //int cg = 0;
+            //int cb = 0;
 
-            for (int y = 0; y < rs.ImageHeight; y++)
-            {
-                for(int x = 0; x < rs.ImageWidth; x++)
-                {
-                    cr = r.Next(255);
-                    cg = r.Next(255);
-                    cb = r.Next(255);
+            //for (int y = 0; y < rs.ImageHeight; y++)
+            //{
+            //    for(int x = 0; x < rs.ImageWidth; x++)
+            //    {
+            //        cr = r.Next(255);
+            //        cg = r.Next(255);
+            //        cb = r.Next(255);
 
-                    bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(cr,cg,cb));
-                    if (x == 0)
-                    {
-                        pictureBox.Refresh();
-                    }
-                }
-            }
-            pictureBox.Invalidate();
+            //        bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(cr,cg,cb));
+            //        if (x == 0)
+            //        {
+            //            pictureBox.Refresh();
+            //        }
+            //    }
+            //}
+            //pictureBox.Invalidate();
 
             //RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color) =>
             //{
@@ -122,59 +126,66 @@ namespace ProGenTracer
             //pictureBox.Invalidate();
 
         }
-
-        private void GenerateRender2(object sender, RoutedEventArgs e)
+        public void GeneratePixel()
         {
-            //List<System.Drawing.Color> colorMap = new List<System.Drawing.Color>();
+            Random r = new Random();
+            int cr = 0;
+            int cg = 0;
+            int cb = 0;
 
-            //RenderSettings rs = new RenderSettings();
-            //rs.ImageHeight = 500;
-            //rs.ImageWidth = 500;
+            int x = 0;
+            int y = 0;
 
-            //System.ComponentModel.TypeConverter converter = new System.ComponentModel.TypeConverter();
+            x = r.Next(300);
+            y = r.Next(300);
 
-            //i = new Image();
-            //RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.NearestNeighbor);
-            //RenderOptions.SetEdgeMode(i, EdgeMode.Aliased);
+            cr = r.Next(255);
+            cg = r.Next(255);
+            cb = r.Next(255);
 
-            //w = new Window();
-            //w.Height = rs.ImageHeight;
-            //w.Width = rs.ImageWidth;
-            //w.Content = i;
-            //w.Show();
+            DrawPixel(x, y, System.Drawing.Color.FromArgb(cr, cg, cb));
+        }
 
-            //writeableBitmap = new WriteableBitmap(
-            //    (int)w.ActualWidth,
-            //    (int)w.ActualHeight,
-            //    96,
-            //    96,
-            //    PixelFormats.Bgr32,
-            //    null);
+        private void Draw(object sender, RoutedEventArgs e)
+        {
+            GeneratePixel();
+        }
 
-            //i.Source = writeableBitmap;
+        private void GenerateRender(object sender, RoutedEventArgs e)
+        {
+            List<System.Drawing.Color> colorMap = new List<System.Drawing.Color>();
 
-            //i.Stretch = Stretch.None;
-            //i.HorizontalAlignment = HorizontalAlignment.Left;
-            //i.VerticalAlignment = VerticalAlignment.Top;
+            RenderSettings rs = new RenderSettings();
+            rs.ImageHeight = 500;
+            rs.ImageWidth = 500;
 
-            //Random r = new Random();
-            //int cr = 0;
-            //int cg = 0;
-            //int cb = 0;
+            System.ComponentModel.TypeConverter converter = new System.ComponentModel.TypeConverter();
 
-            //for (int x = 0; x <  rs.ImageWidth; x++)
-            //{
-            //    for(int y = 0; y < rs.ImageHeight; y++)
-            //    {
-            //        cr = r.Next(255);
-            //        cg = r.Next(255);
-            //        cb = r.Next(255);
+            Image i = new Image();
+            RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.NearestNeighbor);
+            RenderOptions.SetEdgeMode(i, EdgeMode.Aliased);
 
-            //        //DrawPixel(x, y, System.Drawing.Color.FromArgb(cr,cg,cb));
-            //        colorMap.Add(System.Drawing.Color.FromArgb(cr, cg, cb));
-            //    }
+            w = new Window();
+            w.Height = rs.ImageHeight;
+            w.Width = rs.ImageWidth;
+            w.Content = i;
+            w.Show();
 
-            //}
+            writeableBitmap = new WriteableBitmap(
+                (int)w.ActualWidth,
+                (int)w.ActualHeight,
+                96,
+                96,
+                PixelFormats.Bgr32,
+                null);
+
+            i.Source = writeableBitmap;
+
+            i.Stretch = Stretch.None;
+            i.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
+            i.VerticalAlignment = VerticalAlignment.Top;
+
+
 
 
             //RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color1) =>
@@ -221,7 +232,7 @@ namespace ProGenTracer
             writeableBitmap.Unlock();
         }
 
-        private void GenerateRender1(object sender, RoutedEventArgs e)
+        private void GenerateRender4(object sender, RoutedEventArgs e)
         {
             RenderWindow renderer = new RenderWindow();
             RenderSettings rs = new RenderSettings();
