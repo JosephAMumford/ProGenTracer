@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProGenTracer"
         mc:Ignorable="d"
-        Title="ProGen Tracer" Height="480" Width="640">
+        Title="ProGen Tracer" Height="600" Width="800
+        ">
     <Grid Background="#FFBECDD6">
-        <Button x:Name="button" Click="GenerateRender"  Content="Generate" HorizontalAlignment="Center" Margin="279,421,279.6,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
-        <Button x:Name="DrawButton" Click ="Draw" Content="Draw" HorizontalAlignment="Left" Margin="529,395,0,0" VerticalAlignment="Top" Width="75"/>
+        <WindowsFormsHost Name="RenderForm" HorizontalAlignment="Left" Height="400" Margin="382,10,0,0" VerticalAlignment="Top" Width="400"/>
+        <Button x:Name="button" Click="GenerateRender"  Content="Generate" HorizontalAlignment="Center" Margin="17,335,700,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
+        
 
     </Grid>
 </Window>
