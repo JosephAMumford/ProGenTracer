@@ -49,227 +49,31 @@ namespace ProGenTracer
             pictureBox.Show();
         }
 
-        //static WriteableBitmap writeableBitmap;
-        //static Window w;
-        //static Image i;
-
-
-
-        //    public RayTracerForm()
-        //    {
-        //        bitmap = new Bitmap(width, height);
-        //
-        //        pictureBox = new PictureBox();
-        //        pictureBox.Dock = DockStyle.Fill;
-        //        pictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
-        //        pictureBox.Image = bitmap;
-
-        //        ClientSize = new System.Drawing.Size(width, height + 24);
-        //        Controls.Add(pictureBox);
-        //        Text = "Ray Tracer";
-        //        Load += RayTracerForm_Load;
-
-        //        Show();
-        //    }
-
-        //    public void RayTracerForm_Load(object sender, EventArgs e)
-        //    {
-        //        this.Show();
-        //        RayTracer rayTracer = new RayTracer(width, height, (int x, int y, System.Drawing.Color color) =>
-        //        {
-        //            bitmap.SetPixel(x, y, color);
-        //            if (x == 0) pictureBox.Refresh();
-        //        });
-        //        rayTracer.Render(rayTracer.DefaultScene);
-        //        pictureBox.Invalidate();
-
-        //    }
-
- 
-
-       // static WriteableBitmap writeableBitmap;
-        public DrawingContext dc;
-
         private void GenerateRender(object sender, RoutedEventArgs e)
         {
+            Renderer ren = new Renderer();
+            ren.w.position = new Vector3(0, 0, 5);
+            ren.w.size = new Vector3(10, 10, 2);
 
-            RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color) =>
+            for(int y = 0; y < rs.ImageHeight; y++) 
             {
-                bitmap.SetPixel(x, y, color);
-                if (x == 0) pictureBox.Refresh();
-            });
-            rayTracer.Render(rayTracer.DefaultScene);
+                for(int x = 0; x < rs.ImageWidth; x++)
+                {
+                    Utilities.Color pixel = ren.TraceRay(new Ray(new Vector3(x - (rs.ImageWidth*0.5), y - (rs.ImageHeight * 0.5), 0), new Vector3(0, 0, 6)));
+                    bitmap.SetPixel(x, y,pixel.ToDrawingColor());
+                    if (x == 0) pictureBox.Refresh();
+                }
+            }
             pictureBox.Invalidate();
+
+            //RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color) =>
+            //{
+            //    bitmap.SetPixel(x, y, color);
+            //    if (x == 0) pictureBox.Refresh();
+            //});
+            //rayTracer.Render(rayTracer.DefaultScene);
+            //pictureBox.Invalidate();
 
         }
     }
-
-        //public void GeneratePixel()
-        //{
-            
-        //    int cr = 0;
-        //    int cg = 0;
-        //    int cb = 0;
-
-        //    int x = 0;
-        //    int y = 0;
-
-        //    x = r.Next(300);
-        //    y = r.Next(300);
-
-        //    cr = r.Next(255);
-        //    cg = r.Next(255);
-        //    cb = r.Next(255);
-
-        //    DrawPixel(x, y, System.Drawing.Color.FromArgb(cr, cg, cb));
-        //}
-
-        //private void Draw(object sender, RoutedEventArgs e)
-        //{
-        //    bool door = false;
-        //    int n = 0;
-        //    while(door == false)
-        //    {
-        //        GeneratePixel();
-        //        n++;
-        //        if(n > 100)
-        //        {
-        //            door = true;
-        //        }
-        //    }
-        //}
-
-        //private void GenerateRender(object sender, RoutedEventArgs e)
-        //{
-        //    List<System.Drawing.Color> colorMap = new List<System.Drawing.Color>();
-
-        //    RenderSettings rs = new RenderSettings();
-        //    rs.ImageHeight = 500;
-        //    rs.ImageWidth = 500;
-
-        //    System.ComponentModel.TypeConverter converter = new System.ComponentModel.TypeConverter();
-
-        //    Image i = new Image();
-        //    RenderOptions.SetBitmapScalingMode(i, BitmapScalingMode.NearestNeighbor);
-        //    RenderOptions.SetEdgeMode(i, EdgeMode.Aliased);
-
-        //    w = new Window();
-        //    w.Height = rs.ImageHeight;
-        //    w.Width = rs.ImageWidth;
-        //    w.Content = i;
-        //    w.Show();
-
-        //    writeableBitmap = new WriteableBitmap(
-        //        (int)w.ActualWidth,
-        //        (int)w.ActualHeight,
-        //        96,
-        //        96,
-        //        PixelFormats.Bgr32,
-        //        null);
-
-        //    i.Source = writeableBitmap;
-
-        //    i.Stretch = Stretch.None;
-        //    i.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-        //    i.VerticalAlignment = VerticalAlignment.Top;
-
-        //    DrawingVisual dv = new DrawingVisual();
-        //    dc. = dv.RenderOpen();
-
-        //    for (int x = 0; x < 50; x++)
-        //    {
-        //        for (int y = 0; y < 50; y++)
-        //        {
-        //            GeneratePixel();
-        //        }
-        //    }
-
-
-        //    //RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color1) =>
-        //    //{
-        //    //    DrawPixel(x, y, color1);
-
-        //    //});
-
-        //    //rayTracer.Render(rayTracer.DefaultScene);
-
-        //}
-
-    //    static void DrawPixel(int x, int y, System.Drawing.Color color)
-    //    {
-    //        int column = x;
-    //        int row = y;
-
-    //        // Reserve the back buffer for updates.
-    //        writeableBitmap.Lock();
-
-    //        unsafe
-    //        {
-    //            // Get a pointer to the back buffer.
-    //            int pBackBuffer = (int)writeableBitmap.BackBuffer;
-
-    //            // Find the address of the pixel to draw.
-    //            pBackBuffer += row * writeableBitmap.BackBufferStride;
-    //            pBackBuffer += column * 4;
-
-    //            // Compute the pixel's color.
-    //           // int color_data = 255 << 16; // R
-    //           // color_data |= 128 << 8;   // G
-    //           // color_data |= 255 << 0;   // B
-
-    //            // Assign the color data to the pixel.
-    //            //*((int*)pBackBuffer) = color_data;
-    //            *((int*)pBackBuffer) = color.ToArgb();
-    //        }
-
-    //        // Specify the area of the bitmap that changed.
-    //        writeableBitmap.AddDirtyRect(new Int32Rect(column, row, 1, 1));
-
-    //        // Release the back buffer and make it available for display.
-    //        writeableBitmap.Unlock();
-    //    }
-
-    //    private void GenerateRender4(object sender, RoutedEventArgs e)
-    //    {
-    //        RenderWindow renderer = new RenderWindow();
-    //        RenderSettings rs = new RenderSettings();
-    //        rs.ImageHeight = 260;
-    //        rs.ImageWidth = 280;
-    //        renderer.SetWindow(rs);
-    //        renderer.RenderImage.Width = rs.ImageWidth;
-    //        renderer.RenderImage.Height = rs.ImageHeight;
-    //        //Bitmap newRender = new Bitmap(rs.ImageWidth, rs.ImageHeight);
-
-    //        //renderer.RenderImage;
-
-    //        PixelFormat pf = PixelFormats.Bgr32;
-    //        int bpp = (pf.BitsPerPixel + 7) / 8;
-    //        int rawStride = 4 * ((rs.ImageWidth * bpp + 3) / 4);
-    //        byte[] rawImage = new byte
-    //            [rawStride * rs.ImageHeight];
-
-    //        List<byte> ri = new List<byte>();
-
-    //        RayTracer rayTracer = new RayTracer(rs.ImageWidth, rs.ImageHeight, (int x, int y, System.Drawing.Color color) =>
-    //        {
-
-    //            ri.Add(color.B);
-    //            ri.Add(color.G);
-    //            ri.Add(color.R);
-    //            ri.Add(color.A);
-                
-    //            //newRender.SetPixel(x, y, color);
-    //            //
-    //            //bitmap.SetPixel(x, y, color);
-    //            //if (x == 0) pictureBox.Refresh();
-    //        });
-    //        rayTracer.Render(rayTracer.DefaultScene);
-
-    //        BitmapSource bitmap = BitmapSource.Create(rs.ImageWidth, rs.ImageHeight, 300, 300, pf, null, ri.ToArray(), rawStride);
-
-    //        renderer.RenderImage.Source = bitmap;
-
-    //        //RayTracerForm.RunRenderer();   
-    //    }
-    //}
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class Color
+    public class Color
     {
         //Public variables
         /// <summary>

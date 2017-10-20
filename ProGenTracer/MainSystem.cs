@@ -11,6 +11,59 @@ using System.Windows.Forms;
 namespace ProGenTracer
 {
 
+    public class Renderer
+    {
+
+        public World w = new World();
+
+        public Utilities.Color TraceRay(Ray ray1)
+        {
+            Utilities.Color pixelColor;
+
+            bool b = w.intersect(ray1);
+
+            if(b == true)
+            {
+                pixelColor = Utilities.Color.Set(1.0, 0.0, 0.0);
+            }
+            else
+            {
+                pixelColor = Utilities.Color.Set(0.5, 0.5, 0.5);
+            }
+
+            return pixelColor;
+        }
+
+
+    }
+
+    public class World
+    {
+        public Vector3 position;
+        public Vector3 size;
+
+        public bool intersect(Ray ray1)
+        {
+            bool b = false;
+
+            double x = ray1.start.x;
+            double y = ray1.start.y;
+            double z = ray1.direction.z;
+
+            if(z >= position.z - size.z)  //&& z <= position.z + size.z)
+            {
+                if(x >= position.x - size.x && x <= position.x + size.x)
+                {
+                    if(y >= position.y - size.y && y <= position.y + size.y)
+                    {
+                        b = true;
+                    }
+                }
+            }
+
+            return b;
+        }
+    }
 
     public delegate void Action<T, U, V>(T t, U u, V v);
 

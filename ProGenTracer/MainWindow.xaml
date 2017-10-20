@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:ProGenTracer"
         mc:Ignorable="d"
         Title="ProGen Tracer" Height="600" Width="800
-        ">
+        " WindowStyle="ThreeDBorderWindow" BorderThickness="2">
     <Grid Background="#FFBECDD6">
-        <WindowsFormsHost Name="RenderForm" HorizontalAlignment="Left" Height="400" Margin="382,10,0,0" VerticalAlignment="Top" Width="400"/>
-        <Button x:Name="button" Click="GenerateRender"  Content="Generate" HorizontalAlignment="Center" Margin="17,335,700,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
-        
+        <WindowsFormsHost Name="RenderForm" HorizontalAlignment="Right" Height="400" Margin="0,10,10,0" VerticalAlignment="Top" Width="400" Background="Black"/>
+        <Button x:Name="button" Click="GenerateRender"  Content="Generate" HorizontalAlignment="Center" Margin="10,521,707,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.467,0.15"/>
+        <StatusBar Height="23" Margin="0,546,0,0" VerticalAlignment="Bottom" Width="792" Background="#FFE89191" BorderThickness="0"/>
+
 
     </Grid>
 </Window>
