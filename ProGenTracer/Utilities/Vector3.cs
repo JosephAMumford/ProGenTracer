@@ -129,7 +129,7 @@ namespace ProGenTracer.Utilities
         /// <returns></returns>
         public double Angle(Vector3 a, Vector3 b)
         {
-            return (Dot(a,b)) / (a.magnitude * b.magnitude);
+            return (Dot(a, b)) / (a.magnitude * b.magnitude);
         }
         /// <summary>
         /// Get the Cross product of Vector a and Vector b
@@ -139,7 +139,7 @@ namespace ProGenTracer.Utilities
         /// <returns></returns>
         public static Vector3 Cross(Vector3 a, Vector3 b)
         {
-            return new Vector3((a.y*b.z)-(a.z*b.y),(a.z*b.x)-(a.x*b.z),(a.x*b.y)-(a.y*b.x));
+            return new Vector3((a.y * b.z) - (a.z * b.y), (a.z * b.x) - (a.x * b.z), (a.x * b.y) - (a.y * b.x));
         }
         /// <summary>
         /// Get the distance from Vector a to Vector b
@@ -187,7 +187,7 @@ namespace ProGenTracer.Utilities
         {
             double mag = a.Magnitude();
 
-            if(mag == 0)
+            if (mag == 0)
             {
                 mag = double.PositiveInfinity;
             }
@@ -198,7 +198,7 @@ namespace ProGenTracer.Utilities
 
             return a;
         }
-       
+
 
         //Operators
         /// <summary>
@@ -220,6 +220,16 @@ namespace ProGenTracer.Utilities
         public static Vector3 operator -(Vector3 a, Vector3 b)
         {
             return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+        }
+
+        /// <summary>
+        /// Negate Vector a
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        public static Vector3 operator -(Vector3 a)
+        {
+            return new Vector3(-a.x,-a.y,-a.z);
         }
 
         /// <summary>

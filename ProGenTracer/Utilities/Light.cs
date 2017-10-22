@@ -11,7 +11,47 @@ namespace ProGenTracer.Utilities
 {
     class Light
     {
+        //Public Variables
         public Vector3 Position;
-        public Color Color;
+        public Vector3 Direction;
+        public Color LightColor;
+        public int Type;
+        public double Radius;
+
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
+        public Light()
+        {
+
+        }
+
+        /// <summary>
+        /// Directional light contructor at position with direction and color
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="color"></param>
+        public Light(Vector3 position, Vector3 direction, Color lightColor)
+        {
+            Type = 0;
+            Position = position;
+            Direction = direction;
+            LightColor = lightColor;
+        }
+
+        /// <summary>
+        /// Point light constructor at position with radius and color
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="radius"></param>
+        /// <param name="lightColor"></param>
+        public Light(Vector3 position, double radius, Color lightColor)
+        {
+            Type = 1;
+            Position = position;
+            Radius = radius;
+            LightColor = lightColor;
+        }
     }
 }

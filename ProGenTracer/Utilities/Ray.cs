@@ -11,17 +11,27 @@ namespace ProGenTracer.Utilities
 {
     public class Ray
     {
-        public Vector3 start;
-        public Vector3 direction;
+        //Public Variables
+        public Vector3 Origin;
+        public Vector3 Direction;
 
+        /// <summary>
+        /// Empty Constructor
+        /// </summary>
         public Ray()
         {
 
         }
-        public Ray(Vector3 str, Vector3 dir)
+
+        /// <summary>
+        /// Create ray starting at origin with direction
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="direction"></param>
+        public Ray(Vector3 origin, Vector3 direction)
         {
-            start = str;
-            direction = dir;
+            Origin = origin;
+            Direction = direction;
         }
     }
 }
