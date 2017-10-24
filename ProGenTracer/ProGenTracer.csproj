@@ -73,6 +73,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -95,13 +96,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainSystem.cs" />
+    <Compile Include="Rendering\Mesh.cs" />
+    <Compile Include="Rendering\SceneObject.cs" />
     <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\Color.cs" />
     <Compile Include="Utilities\Light.cs" />
+    <Compile Include="Utilities\Matrix4x4.cs" />
     <Compile Include="Utilities\Ray.cs" />
     <Compile Include="Utilities\RayHit.cs" />
     <Compile Include="Utilities\RenderSettings.cs" />
     <Compile Include="Utilities\Scene.cs" />
+    <Compile Include="Utilities\Vector2.cs" />
     <Compile Include="Utilities\Vector3.cs" />
     <Compile Include="Utilities\World.cs" />
     <Page Include="MainWindow.xaml">

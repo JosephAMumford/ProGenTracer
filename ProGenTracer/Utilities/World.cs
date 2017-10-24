@@ -11,9 +11,11 @@ namespace ProGenTracer.Utilities
 {
     public class World
     {
-        public Vector3[] position = new Vector3[3];
-        public Vector3[] size = new Vector3[3];
-        public Utilities.Color[] colors = new Utilities.Color[3];
+        //Change the following to scene objects
+        public Vector3[] position;
+        public Vector3[] size;
+        public Utilities.Color[] colors;
+        public int NumberOfObjects;
 
         /// <summary>
         /// Empty Constructor
@@ -23,6 +25,14 @@ namespace ProGenTracer.Utilities
 
         }
 
+        public World(int num)
+        {
+            position = new Vector3[num];
+            size = new Vector3[num];
+            colors = new Utilities.Color[num];
+            NumberOfObjects = num;
+    }
+
         public Utilities.Color intersect(Vector3 orig, Vector3 dir, double t)
         {
             RayHit hit = new RayHit();
@@ -31,11 +41,11 @@ namespace ProGenTracer.Utilities
             int nearest = 0;
             double distance = double.MaxValue;
 
-            for (int x = 0; x < 3; x++)
+            for (int x = 0; x < NumberOfObjects; x++)
             {
                 double t0 = 0; // solutions for t if the ray intersects 
                 double t1 = 0;
-                // analytic solution
+
                 Vector3 L = orig - position[x];
                 double a = Vector3.Dot(dir, dir);
                 double b = 2 * Vector3.Dot(dir, L);
@@ -88,7 +98,7 @@ namespace ProGenTracer.Utilities
                 }
                 else
                 {
-                    pixelColor = Utilities.Color.Set(0.5, 0.5, 0.5);
+                    pixelColor = Utilities.Color.Set(0.0,0.0,0.0);
                 }
             }
 

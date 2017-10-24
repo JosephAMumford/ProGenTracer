@@ -38,8 +38,8 @@ namespace ProGenTracer
         {
             InitializeComponent();
 
-            rs.ImageHeight = 500;
-            rs.ImageWidth = 500;
+            rs.ImageHeight = int.Parse(ImageResY.Text);
+            rs.ImageWidth = int.Parse(ImageResX.Text);
 
             bitmap = new Bitmap(rs.ImageWidth, rs.ImageHeight);
             pictureBox = new PictureBox();
@@ -50,26 +50,26 @@ namespace ProGenTracer
             pictureBox.Show();
         }
 
+        
         private void GenerateRender(object sender, RoutedEventArgs e)
         {
-            Renderer ren = new Renderer();
-            ren.w.position[0] = new Vector3(1, 0, 2);
-            ren.w.size[0] = new Vector3(.5, .5, .5);
-            ren.w.colors[0] = Utilities.Color.Set(1.0, 0.0, 0.0);
+            Random rand = new Random();
+            int num = 50;
 
-            ren.w.position[1] = new Vector3(-2, 0, 2);
-            ren.w.size[1] = new Vector3(.5, .5, .5);
-            ren.w.colors[1] = Utilities.Color.Set(0.0, 1.0, 0.0);
+            World w = new World(num);
 
-            ren.w.position[2] = new Vector3(1, 0, 3);
-            ren.w.size[2] = new Vector3(.5, .5, .5);
-            ren.w.colors[2] = Utilities.Color.Set(0.0, 0.0, 1.0);
+            for (int i = 0; i < num; i++)
+            {
+                w.position[i] = new Vector3(rand.Next(-5, 5), rand.Next(-5, 5), rand.Next(1, 10));
+                w.size[i] = new Vector3(rand.NextDouble() * rand.Next(2), rand.NextDouble() * rand.Next(2), rand.NextDouble() * rand.Next(2));
+                w.colors[i] = Utilities.Color.Set(rand.NextDouble(), rand.NextDouble(), rand.NextDouble());
+            }
 
             Stopwatch RenderTimer = new Stopwatch();
 
             RenderTimer.Start();
+
             double aspectRatio = rs.ImageWidth / rs.ImageHeight;
-            double fov = (Math.PI / 2);
 
             for (int y = 0; y < rs.ImageHeight; y++)
             {
@@ -78,12 +78,12 @@ namespace ProGenTracer
 
                     double u = (x + 0.5) / rs.ImageWidth;
                     double v = (y + 0.5) / rs.ImageHeight;
-                    double px = (2 * u - 1) * aspectRatio * Math.Tan(fov / 2);
-                    double py = (1 - 2 * v) * Math.Tan(fov / 2);
+                    double px = (2 * u - 1) * aspectRatio * Math.Tan(rs.FieldOfView / 2);
+                    double py = (1 - 2 * v) * Math.Tan(rs.FieldOfView / 2);
                     Ray newRay = new Utilities.Ray();
                     newRay.Origin = new Utilities.Vector3(0, 0, 0);
                     newRay.Direction = Vector3.Normalize(new Vector3(px, py, 1) - newRay.Origin);
-                    Utilities.Color pixel = ren.TraceRay(newRay);
+                    Utilities.Color pixel = w.intersect(newRay.Origin, newRay.Direction, double.PositiveInfinity);
                     bitmap.SetPixel(x, y, pixel.ToDrawingColor());
                     if (x == 0) pictureBox.Refresh();
                 }
@@ -98,6 +98,27 @@ namespace ProGenTracer
 
         private void OpenRenderWindowcheck(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void ImageResX_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //int w = int.Parse(ImageResX.Text);
+            //rs.ImageWidth = w;
+            rs.ImageWidth = int.Parse(ImageResX.Text);
+        }
+
+        private void ImageResY_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //int h = int.Parse(ImageResY.Text);
+            //rs.ImageHeight = h;
+            rs.ImageHeight = int.Parse(ImageResY.Text);
+        }
+
+        private void FovInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double f = double.Parse(FovInput.Text);
+            rs.FieldOfView = (f * Math.PI)/180;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ProGenTracer.Utilities
         //Public Variables
         public int ImageWidth;
         public int ImageHeight;
+        public double FieldOfView;
 
         /// <summary>
         /// Empty Constructor
