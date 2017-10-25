@@ -42,16 +42,33 @@ namespace ProGenTracer.Utilities
             this.magnitude = a.magnitude;
         }
 
+        /// <summary>
+        /// Add Vector a to Vector b
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static Vector2 operator +(Vector2 a, Vector2 b)
         {
             return new Vector2(a.x + b.x, a.y + b.y);
         }
 
+        /// <summary>
+        /// Subtract Vector b from vector a 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public static Vector2 operator -(Vector2 a, Vector2 b)
         {
             return new Vector2(a.x - b.x, a.y - b.y);
         }
 
+        /// <summary>
+        /// Negate Vector a
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
         public static Vector2 operator -(Vector2 a)
         {
             return new Vector2(-a.x, -a.y);
