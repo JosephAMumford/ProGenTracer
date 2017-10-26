@@ -83,7 +83,8 @@ namespace ProGenTracer
                     Ray newRay = new Utilities.Ray();
                     newRay.Origin = new Utilities.Vector3(0, 0, 0);
                     newRay.Direction = Vector3.Normalize(new Vector3(px, py, 1) - newRay.Origin);
-                    Utilities.Color pixel = w.intersect(newRay.Origin, newRay.Direction, double.PositiveInfinity);
+                    //Utilities.Color pixel = w.intersect(newRay.Origin, newRay.Direction, double.PositiveInfinity);
+                    Utilities.Color pixel = w.intersectTriangle(newRay.Origin, newRay.Direction, double.PositiveInfinity);
                     bitmap.SetPixel(x, y, pixel.ToDrawingColor());
                     if (x == 0) pictureBox.Refresh();
                 }

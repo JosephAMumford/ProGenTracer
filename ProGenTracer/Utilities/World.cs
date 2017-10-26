@@ -31,7 +31,80 @@ namespace ProGenTracer.Utilities
             size = new Vector3[num];
             colors = new Utilities.Color[num];
             NumberOfObjects = num;
-    }
+        }
+
+        public Utilities.Color intersectTriangle(Vector3 orig, Vector3 dir, double t)
+        {
+            Vector3 v0 = new Vector3(0,0,10);
+            Vector3 v1 = new Vector3(-1,0,10);
+            Vector3 v2 = new Vector3(0,1,10);
+            Color pixelColor = new Color();
+            double kEpsilon = 0.00001;
+            //Compute Normal
+            Vector3 v0v1 = v1 - v0;
+            Vector3 v0v2 = v2 - v0;
+            Vector3 n = Vector3.Cross(v0v1, v0v2);
+            double area2 = n.Magnitude();
+            bool result = true;
+
+            //Find P
+            //Check if ray and plane are parallel
+            double NdotRayDirection = Vector3.Dot(n, dir);
+            //if (Math.Abs(NdotRayDirection) < kEpsilon)      //almost zero
+            //    return false;   //parallel
+
+            if (Math.Abs(NdotRayDirection) > kEpsilon)      //almost zero
+            {
+                //compute d parameter using equation 2
+                double d = Vector3.Dot(n, v0);
+
+                //compute t equation 3
+                t = (Vector3.Dot(n, orig) + d) / NdotRayDirection;
+                //check if the triangle is in behind ray
+                //if (t < 0) return false;
+                if (t > 0)
+                {
+                    //Compute intersection point using equation 1
+                    Vector3 P = orig + dir * t;
+
+                    //Step 2 inside outside test
+                    Vector3 C = new Vector3();  //vector perpendicular to triangle plane
+
+                    //edge 0
+                    Vector3 edge0 = v1 - v0;
+                    Vector3 vp0 = P - v0;
+                    C = Vector3.Cross(edge0, vp0);
+                    //if (Vector3.Dot(n, C) < 0) return false; //P is on the right side
+                    if (Vector3.Dot(n, C) < 0) result = false;
+
+                    //edge 1
+                    Vector3 edge1 = v2 - v1;
+                    Vector3 vp1 = P - v1;
+                    C = Vector3.Cross(edge1, vp1);
+                    //if (Vector3.Dot(n, C) < 0) return false;
+                    if (Vector3.Dot(n, C) < 0) result = false;
+
+                    //edge 2
+                    Vector3 edge2 = v0 - v2;
+                    Vector3 vp2 = P - v2;
+                    C = Vector3.Cross(n, vp2);
+                    //if (Vector3.Dot(n, C) < 0) return false;
+                    if (Vector3.Dot(n, C) < 0) result = false;
+
+                    //return true;  //this ray hits the triangle
+                    if (result == true)
+                    {
+                        pixelColor = new Color(0.0, 1.0, 0.0);
+                    }
+                }
+
+
+            }
+
+
+
+            return pixelColor;
+        }
 
         public Utilities.Color intersect(Vector3 orig, Vector3 dir, double t)
         {
