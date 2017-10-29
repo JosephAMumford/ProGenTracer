@@ -96,8 +96,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="MainSystem.cs" />
+    <Compile Include="Rendering\Material.cs" />
     <Compile Include="Rendering\Mesh.cs" />
     <Compile Include="Rendering\SceneObject.cs" />
+    <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\Color.cs" />
     <Compile Include="Utilities\Light.cs" />

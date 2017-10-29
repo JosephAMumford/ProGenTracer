@@ -80,9 +80,9 @@ namespace ProGenTracer
             //    w.colors[i] = Utilities.Color.Set(rand.NextDouble(), rand.NextDouble(), rand.NextDouble());
             //}
 
-            Vector3 a = new Utilities.Vector3(1,0,-4);
-            Vector3 b = new Utilities.Vector3(-1,0,-4);
-            Vector3 c = new Utilities.Vector3(0,1,-10);
+            Vector3 a = new Utilities.Vector3(1,-1,4);
+            Vector3 b = new Utilities.Vector3(-1,0,4);
+            Vector3 c = new Utilities.Vector3(0,1,4);
 
             Mesh newMesh = new Mesh();
 
@@ -105,12 +105,12 @@ namespace ProGenTracer
                     //generate ray
                     double px = (2 * (x + 0.5) / (double)rs.ImageWidth - 1) * imageAspectRatio * scale;
                     double py = (1 - 2 * (y + 0.5) / (double)rs.ImageHeight) * scale;
-                    newRay.Direction = Vector3.Normalize(new Vector3(px, py, -1));
+                    newRay.Direction = Vector3.Normalize(new Vector3(px, py, 1));
                     //newRay.Distance = 100;
                     newRay.Distance = double.PositiveInfinity;
                     //pixelColor = castRay(newRay, newMesh, rs, 0);
 
-                    RayHit hit = rayTriangleIntersect(a, c, b, newRay, newRay.Distance, 0, 0);
+                    RayHit hit = rayTriangleIntersect(a, b, c, newRay, newRay.Distance, 0, 0);
 
                     pixelColor = hit.hitColor;
 
@@ -275,7 +275,7 @@ namespace ProGenTracer
             hit.isHit = true;
             hit.u = du;
             hit.v = dv;
-            hit.hitColor = new Utilities.Color(0.5, 0.5, 0.5);
+            hit.hitColor = new Utilities.Color(0.75, 1.0, 0.5);
             return hit;
         }
 
