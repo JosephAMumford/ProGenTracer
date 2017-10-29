@@ -65,8 +65,24 @@ namespace ProGenTracer.Utilities
             return t;
         }
 
+        public static Matrix4x4 SetProjectionMatrix(double angleOfView, double near, double far, Matrix4x4 m)
+        {
+
+            double scale = 1 / Math.Tan(angleOfView * 0.5 * Math.PI / 180);
+
+            m.m[0] = scale;
+            m.m[5] = scale;
+            m.m[10] = -far / (far - near);
+            m.m[9] = -far * near / (far - near);
+            m.m[6] = -1;
+            m.m[15] = 0;
+
+            return m;
+        }
+
         public static Vector3 MultiplyPoint(Vector3 a, Matrix4x4 m)
         {
+            //out = in * Mproj
             Vector3 b = new Vector3();
 
             double x, y, z, w;

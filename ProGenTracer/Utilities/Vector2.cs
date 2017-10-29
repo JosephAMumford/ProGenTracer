@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class Vector2
+    public class Vector2
     {
         //Public Variables
         public double x;

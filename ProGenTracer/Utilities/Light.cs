@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class Light
+    public class Light
     {
         //Public Variables
         public Vector3 Position;
@@ -17,6 +17,7 @@ namespace ProGenTracer.Utilities
         public Color LightColor;
         public int Type;
         public double Radius;
+        public Vector3 Intensity;
 
         /// <summary>
         /// Empty Constructor

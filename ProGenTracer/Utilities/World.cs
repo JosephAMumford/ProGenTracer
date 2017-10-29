@@ -17,6 +17,8 @@ namespace ProGenTracer.Utilities
         public Utilities.Color[] colors;
         public int NumberOfObjects;
 
+        public Light[] lights;
+
         /// <summary>
         /// Empty Constructor
         /// </summary>
@@ -33,18 +35,146 @@ namespace ProGenTracer.Utilities
             NumberOfObjects = num;
         }
 
+        public Utilities.Color lineIntersection(Ray ray)
+        {
+            Utilities.Color newColor = new Utilities.Color();
+
+            return newColor;
+        }
+
+        public RayHit inter(Ray ray, Vector3 v0, Vector3 v1, Vector3 v2)
+        {
+            RayHit hit = new RayHit();
+            double kEpsilon = 0.00001;
+
+            Vector3 v0v1 = v1 - v0;
+            Vector3 v0v2 = v2 - v0;
+            Vector3 pvec = Vector3.Cross(ray.Direction, v0v2);
+            double det = Vector3.Dot(v0v1, pvec);
+
+            if(det < kEpsilon)
+            {
+                hit.isHit = false;
+                return hit; 
+            }
+
+            if (Math.Abs(det) < kEpsilon)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            double invDet = 1 / det;
+            Vector3 tvec = ray.Origin - v0;
+
+            double u1 = Vector3.Dot(tvec, pvec) * invDet;
+
+            if (u1 < 0 || u1 > 1)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            Vector3 qvec = Vector3.Cross(tvec, v0v1);
+            double v = Vector3.Dot(ray.Direction, qvec) * invDet;
+            if(v < 0 || u1 + v > 1)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            hit.distance = Vector3.Dot(v0v2, qvec) * invDet;
+
+            hit.isHit = true;
+            return hit;
+        }
+
+        public RayHit intersectTri(Ray ray, Vector3 v0, Vector3 v1, Vector3 v2)
+        {
+            RayHit hit = new RayHit();
+            double kEpsilon = 0.00001;
+            //Compute Normal
+            Vector3 v0v1 = v1 - v0;
+            Vector3 v0v2 = v2 - v0;
+            Vector3 n = Vector3.Cross(v0v1, v0v2);
+            double denom = Vector3.Dot(n, n);
+
+            double NdotRayDirection = Vector3.Dot(n, ray.Direction);
+
+            if(Math.Abs(NdotRayDirection) < kEpsilon)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            double d = Vector3.Dot(n, v0);
+
+            ray.Distance = (Vector3.Dot(n, ray.Origin) + d) / NdotRayDirection;
+
+            if(ray.Distance < 0)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            Vector3 P = ray.Origin + (ray.Direction * ray.Distance);
+
+            //Step 2 inside outside test
+            Vector3 C = new Vector3();  //vector perpendicular to triangle plane
+
+            //edge 0
+            Vector3 edge0 = v1 - v0;
+            Vector3 vp0 = P - v0;
+            C = Vector3.Cross(edge0, vp0);
+            if (Vector3.Dot(n, C) < 0)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            //edge 1
+            Vector3 edge1 = v2 - v1;
+            Vector3 vp1 = P - v1;
+            C = Vector3.Cross(edge1, vp1);
+            if (Vector3.Dot(n, C) < 0)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            //edge 2
+            Vector3 edge2 = v0 - v2;
+            Vector3 vp2 = P - v2;
+            C = Vector3.Cross(n, vp2);
+            if (Vector3.Dot(n, C) < 0)
+            {
+                hit.isHit = false;
+                return hit;
+            }
+
+            hit.isHit = true;
+            hit.u /= denom;
+            hit.v /= denom;
+            hit.distance = ray.Distance;
+
+            return hit;
+        }
+
         public Utilities.Color intersectTriangle(Vector3 orig, Vector3 dir, double t)
         {
-            Vector3 v0 = new Vector3(0,0,10);
-            Vector3 v1 = new Vector3(-1,0,10);
-            Vector3 v2 = new Vector3(0,1,10);
+            Vector3 v0 = new Vector3(-1,-1,5);
+            Vector3 v1 = new Vector3(-1,-1,5);
+            Vector3 v2 = new Vector3(0,1,5);
             Color pixelColor = new Color();
             double kEpsilon = 0.00001;
             //Compute Normal
             Vector3 v0v1 = v1 - v0;
             Vector3 v0v2 = v2 - v0;
             Vector3 n = Vector3.Cross(v0v1, v0v2);
+
             double area2 = n.Magnitude();
+
+
             bool result = true;
 
             //Find P
@@ -211,5 +341,6 @@ namespace ProGenTracer.Utilities
 
             return newResult;
         }
+
     }
 }

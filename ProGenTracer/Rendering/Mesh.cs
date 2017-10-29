@@ -10,7 +10,7 @@ using ProGenTracer.Utilities;
 
 namespace ProGenTracer.Rendering
 {
-    class Mesh
+    public class Mesh
     {
         //Public Variables
         public string name;

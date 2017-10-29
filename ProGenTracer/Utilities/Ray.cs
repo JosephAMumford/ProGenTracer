@@ -14,6 +14,7 @@ namespace ProGenTracer.Utilities
         //Public Variables
         public Vector3 Origin;
         public Vector3 Direction;
+        public double Distance;
 
         /// <summary>
         /// Empty Constructor

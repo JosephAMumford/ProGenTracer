@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class RenderSettings
+    public class RenderSettings
     {
         //Public Variables
         public int ImageWidth;
         public int ImageHeight;
         public double FieldOfView;
+        public int MaxDepth;
+        public double Bias;
 
         /// <summary>
         /// Empty Constructor

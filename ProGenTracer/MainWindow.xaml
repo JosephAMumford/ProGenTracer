@@ -18,7 +18,7 @@
         <TextBox x:Name="ImageResY" HorizontalAlignment="Left" Height="23" Margin="125,47,0,0" TextWrapping="Wrap" Text="500" VerticalAlignment="Top" Width="58" TextChanged="ImageResY_TextChanged"/>
         <CheckBox x:Name="OpenRenderWindow" Content="Open Render Window" HorizontalAlignment="Left" Margin="125,16,0,0" VerticalAlignment="Top" Width="145" Checked="OpenRenderWindowcheck"/>
         <Label x:Name="FovLabel" Content="Field Of View:" HorizontalAlignment="Left" Margin="188,43,0,0" VerticalAlignment="Top" Height="28" Width="82"/>
-        <TextBox x:Name="FovInput" HorizontalAlignment="Left" Height="23" Margin="275,47,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="58" TextChanged="FovInput_TextChanged"/>
+        <TextBox x:Name="FovInput" HorizontalAlignment="Left" Height="23" Margin="275,47,0,0" TextWrapping="Wrap" Text="45" VerticalAlignment="Top" Width="58" TextChanged="FovInput_TextChanged"/>
 
     </Grid>
 </Window>

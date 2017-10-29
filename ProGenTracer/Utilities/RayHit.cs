@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class RayHit
+    public class RayHit
     {
         //Public Variables
         public bool isHit = false;
@@ -18,6 +18,8 @@ namespace ProGenTracer.Utilities
         public double ratio = 0;
         public double u = 0;
         public double v = 0;
+        public double distance = 0;
+        public Utilities.Color hitColor = new Utilities.Color();
 
         //Public Functions
         /// <summary>

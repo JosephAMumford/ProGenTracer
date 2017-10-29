@@ -10,7 +10,7 @@ using ProGenTracer.Utilities;
 
 namespace ProGenTracer.Utilities
 {
-    class Camera
+    public class Camera
     {
         //Public variables
         /// <summary>

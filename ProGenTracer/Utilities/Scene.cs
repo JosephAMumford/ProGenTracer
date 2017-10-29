@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class Scene
+    public class Scene
     {
         public Light[] Lights;
-        public Camera Camera;
+        public Camera MainCamera;
 
     }
 }
