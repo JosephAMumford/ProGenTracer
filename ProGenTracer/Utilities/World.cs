@@ -153,8 +153,8 @@ namespace ProGenTracer.Utilities
             }
 
             hit.isHit = true;
-            hit.u /= denom;
-            hit.v /= denom;
+            hit.uv.x /= denom;
+            hit.uv.y /= denom;
             hit.distance = ray.Distance;
 
             return hit;

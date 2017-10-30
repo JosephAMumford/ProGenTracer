@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProGenTracer.Utilities;
 
 namespace ProGenTracer.Utilities
 {
@@ -17,6 +18,8 @@ namespace ProGenTracer.Utilities
         public double FieldOfView;
         public int MaxDepth;
         public double Bias;
+        public Color BackgroundColor = Color.Background;
+
 
         /// <summary>
         /// Empty Constructor

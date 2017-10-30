@@ -13,12 +13,12 @@ namespace ProGenTracer.Rendering
     public class Mesh
     {
         //Public Variables
-        public string name;
         public Vector3[] vertices;
         public Vector2[] uv;
         public int[] triangles;
         public Vector3[] normals;
         public Color[] colors;
+       
         //public Vector4[] tangents;
         //bounding box
 

@@ -16,10 +16,11 @@ namespace ProGenTracer.Utilities
         public Vector3 hitPoint = new Vector3();
         public Vector3 normal = new Vector3();
         public double ratio = 0;
-        public double u = 0;
-        public double v = 0;
+        public Vector2 uv = new Vector2();
         public double distance = 0;
         public Utilities.Color hitColor = new Utilities.Color();
+        public int HitObjectID;
+        public double near;
 
         //Public Functions
         /// <summary>
@@ -46,8 +47,8 @@ namespace ProGenTracer.Utilities
         /// </summary>
         public void SetUV()
         {
-            u = (1 + Math.Atan2(normal.z, normal.x) / Math.PI) * 0.5;
-            v = Math.Acos(normal.y) / Math.PI;
+            uv.x = (1 + Math.Atan2(normal.z, normal.x) / Math.PI) * 0.5;
+            uv.y = Math.Acos(normal.y) / Math.PI;
         }
 
         /// <summary>

@@ -11,6 +11,6 @@ namespace ProGenTracer.Rendering
     {
         public string Name;
         public int Type;
-        
+        public Color color = new Color();
     }
 }

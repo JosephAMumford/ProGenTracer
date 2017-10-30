@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProGenTracer.Rendering;
 
 namespace ProGenTracer.Utilities
 {
     public class Scene
     {
-        public Light[] Lights;
+        public List<SceneObject> SceneObjects = new List<SceneObject>();
+        public List<Light> Lights = new List<Light>();
         public Camera MainCamera;
 
     }
