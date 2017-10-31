@@ -21,6 +21,7 @@ namespace ProGenTracer.Utilities
         public Utilities.Color hitColor = new Utilities.Color();
         public int HitObjectID;
         public double near;
+        public int index;
 
         //Public Functions
         /// <summary>

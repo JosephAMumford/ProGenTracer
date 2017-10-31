@@ -172,7 +172,7 @@ namespace ProGenTracer.Utilities
             Vector3 v0v2 = v2 - v0;
             Vector3 n = Vector3.Cross(v0v1, v0v2);
 
-            double area2 = n.Magnitude();
+            double area2 = Vector3.Magnitude(n);
 
 
             bool result = true;

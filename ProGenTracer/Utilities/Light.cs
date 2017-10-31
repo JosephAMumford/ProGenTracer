@@ -17,7 +17,7 @@ namespace ProGenTracer.Utilities
         public Color LightColor;
         public int Type;
         public double Radius;
-        public Vector3 Intensity;
+        public double Intensity;
 
         /// <summary>
         /// Empty Constructor

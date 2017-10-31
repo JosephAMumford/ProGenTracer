@@ -56,9 +56,27 @@ namespace ProGenTracer.Rendering
         {
             normals = normalsList.ToArray();
         }
+        public Vector3 GetNormal(int index)
+        {
+            Vector3 edge1 = Vector3.Normalize(vertices[triangles[index+1]] - vertices[triangles[index]]);
+            Vector3 edge2 = Vector3.Normalize(vertices[triangles[index + 2]] - vertices[triangles[index + 1]]);
+            return Vector3.Normalize(Vector3.Cross(edge1,edge2));
+        }
         public void ComputeNormals()
         {
+            normals = new Vector3[vertices.Length];
+            int numberOfTriangles = triangles.Length / 3;
+            int index = 0;
+            for (int i = 0; i < numberOfTriangles; i++)
+            {
+                Vector3 n = GetNormal(index);
 
+                normals[triangles[index]] = n;
+                normals[triangles[index + 1]] = n;
+                normals[triangles[index + 2]] = n;
+
+                index += 3;
+            }
         }
         public void ComputeTangents()
         {

@@ -84,7 +84,7 @@ namespace ProGenTracer.Utilities
             this.x = x;
             this.y = y;
             this.z = z;
-            magnitude = Magnitude();
+            magnitude = Magnitude(this);
         }
         /// <summary>
         /// Copy constructor
@@ -149,7 +149,7 @@ namespace ProGenTracer.Utilities
         /// <returns></returns>
         public double Distance(Vector3 a, Vector3 b)
         {
-            return (a - b).Magnitude();
+            return Magnitude(a - b);
         }
         /// <summary>
         /// Reflect Vector3 a by Normal n
@@ -176,16 +176,16 @@ namespace ProGenTracer.Utilities
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        public double Magnitude()
+        public static double Magnitude(Vector3 a)
         {
-            return Math.Sqrt(Dot(this, this));
+            return Math.Sqrt(Dot(a, a));
         }
         /// <summary>
         /// Normalize the vector
         /// </summary>
         public static Vector3 Normalize(Vector3 a)
         {
-            double mag = a.Magnitude();
+            double mag = Magnitude(a);
 
             if (mag == 0)
             {
