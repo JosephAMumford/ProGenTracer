@@ -159,7 +159,7 @@ namespace ProGenTracer.Utilities
         /// <returns></returns>
         public static Vector3 Reflect(Vector3 a, Vector3 n)
         {
-            return new Vector3();
+            return a - n * 2 * Dot(a, n);
         }
         /// <summary>
         /// Get the dot product of Vector a and Vector b

@@ -95,7 +95,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="MainSystem.cs" />
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Rendering\Mesh.cs" />
     <Compile Include="Rendering\SceneObject.cs" />
@@ -110,7 +109,6 @@
     <Compile Include="Utilities\Scene.cs" />
     <Compile Include="Utilities\Vector2.cs" />
     <Compile Include="Utilities\Vector3.cs" />
-    <Compile Include="Utilities\World.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -95,7 +95,7 @@ namespace ProGenTracer
             s1.position = new Utilities.Vector3(0, 0, 0);
             Mesh mesh1 = new Mesh();
             Material mat1 = new Material();
-            mat1.color = Utilities.Color.Set(1.0, 0.0, 0.0);
+            mat1.color = Utilities.Color.Set(1.0, 1.0, 1.0);
             mat1.Specular = 25;
             mat1.Type = 3;
             newVertices.Clear();
@@ -138,7 +138,7 @@ namespace ProGenTracer
             newlight.Position = new Utilities.Vector3(0, 2, 3);
             newlight.Direction = new Vector3(1, -0.8, 1);
             newlight.Type = 0;
-            newlight.Intensity = 2.0;
+            newlight.Intensity = 8.0;
             newlight.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
             scene.Lights.Add(newlight);
         }
@@ -260,18 +260,14 @@ namespace ProGenTracer
             RayHit hit = Trace(scene, ray);
             if (hit.isHit)
             {
-                //newColor = scene.SceneObjects[hit.HitObjectID].material.color;
-
                 Vector3 hitPoint = hit.hitPoint;
                 Vector3 Normal = scene.SceneObjects[hit.HitObjectID].mesh.GetNormal(hit.index);
                 Vector2 st = new Vector2();         //St Coordinates
 
                 //GetSurfaceProperties
-
                 Vector3 temp = hitPoint;
 
                 //Get Material Type
-
                 Material mat = scene.SceneObjects[hit.HitObjectID].material;
 
                 //Default
@@ -308,17 +304,13 @@ namespace ProGenTracer
                     double distance = Vector3.Magnitude(scene.Lights[0].Position - hit.hitPoint);
                     double dist = 1 / (distance * distance);
                     double cosTheta = Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
-                    Vector3 R = reflect(-L, Normal);
+                    Vector3 R = Vector3.Reflect(-L, Normal);
                     double cosAlpha = Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
                     Utilities.Color ambient = (AmbientColor * mat.color);
                     Utilities.Color diffuse = mat.color * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
                     Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 7) * dist;
                     newColor = ambient + diffuse + specular;               
                 }
-
-
-
-
             }
             else
             {
@@ -371,83 +363,6 @@ namespace ProGenTracer
             }
 
             return rayHit;
-        }
-
-        //public Utilities.Color castRay(Ray ray, Mesh mesh, RenderSettings rs, double depth, World world)
-        //{
-        //    Utilities.Color hitColor = Utilities.Color.Set(0.0, 0.0, 0.0);
-
-        //    if(depth > rs.MaxDepth)
-        //    {
-        //        return new Utilities.Color(0, 0, 0);
-        //    }
-
-        //    double tnear = double.MaxValue;
-
-        //    Vector2 uv = new Vector2();
-        //    int index = 0;
-
-        //    //Object hitObject;
-
-        //    RayHit newRayHit = TraceRay();
-        //    if (newRayHit.isHit)
-        //    {
-        //        Vector3 hitPoint = newRayHit.hitPoint;
-        //        Vector3 Normal = new Vector3(); //Normal
-        //        Vector2 st = new Vector2(); //st coordinates
-
-        //        //hitobject = gtSurfaceProperties()
-        //        Vector3 tmp = hitPoint;
-
-        //        //Get Material Type
-        //        //Reflection and Refraction
-        //        //Reflection
-        //        //Default
-        //        double lightAmount = 0;
-        //        //0Utilities.Color SpecularColor = new Utilities.Color();
-
-        //        double SpecularColor = 0;
-
-        //        Vector3 shadowPointOrigin = (Vector3.Dot(ray.Direction, Normal) < 0) ?
-        //            hitPoint + Normal * rs.Bias : hitPoint - Normal * rs.Bias;
-
-        //        for(int i = 0; i < world.lights.Length; i++)
-        //        {
-        //            Vector3 lightDirection = world.lights[i].Position - hitPoint;
-
-        //            //square of the distance
-        //            double lightDistance2 = Vector3.Dot(lightDirection, lightDirection);
-        //            lightDirection = Vector3.Normalize(lightDirection);
-        //            double LdotN = Math.Max(0.0, Vector3.Dot(lightDirection, Normal));
-
-        //            //Object shadowObject;
-        //            double nearShadow = double.MaxValue;
-
-        //            RayHit inShadow = TraceRay();
-        //            int shad = 0;
-        //            if(inShadow.isHit == true)
-        //            {
-        //                shad = 1;
-        //            }
-        //            lightAmount += (1 - shad) * world.lights[i].Intensity * LdotN;
-
-        //            Vector3 reflectionDirection = new Vector3();
-        //            reflectionDirection = reflect(-lightDirection, Normal);
-
-        //            SpecularColor += Math.Pow(Math.Max(0, -Vector3.Dot(reflectionDirection, ray.Direction)), 2.0) * world.lights[i].Intensity;
-
-        //            hitColor = diffuseColor * lightAmount + kd + SpecularColor * ks;
-        //        }
-
-
-        //    }
-
-        //    return hitColor;
-        //}
-
-        public Vector3 reflect(Vector3 i, Vector3 n)
-        {
-            return i - n * 2 * Vector3.Dot(i, n);
         }
 
         public bool rayTriangleIntersect(Vector3 v0, Vector3 v1, Vector3 v2, Ray ray, ref double near, ref Vector2 dUv)
