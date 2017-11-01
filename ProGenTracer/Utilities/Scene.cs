@@ -12,9 +12,17 @@ namespace ProGenTracer.Utilities
 {
     public class Scene
     {
+        /// <summary>
+        /// List of all scene objects in scene
+        /// </summary>
         public List<SceneObject> SceneObjects = new List<SceneObject>();
+        /// <summary>
+        /// List of all lights in scene
+        /// </summary>
         public List<Light> Lights = new List<Light>();
+        /// <summary>
+        /// Scene camera
+        /// </summary>
         public Camera MainCamera;
-
     }
 }

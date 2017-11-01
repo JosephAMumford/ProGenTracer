@@ -12,11 +12,33 @@ namespace ProGenTracer.Utilities
     public class Light
     {
         //Public Variables
+        /// <summary>
+        /// Position of light in world space
+        /// </summary>
         public Vector3 Position;
+        /// <summary>
+        /// Direction of light
+        /// </summary>
         public Vector3 Direction;
+        /// <summary>
+        /// Light color
+        /// </summary>
         public Color LightColor;
+        /// <summary>
+        /// Type of light
+        /// 0 = Directional light
+        /// 1 = Point light
+        /// 2 = Spot light
+        /// 3 = Area light
+        /// </summary>
         public int Type;
+        /// <summary>
+        /// Radius of point light
+        /// </summary>
         public double Radius;
+        /// <summary>
+        /// Intensity of light
+        /// </summary>
         public double Intensity;
 
         /// <summary>

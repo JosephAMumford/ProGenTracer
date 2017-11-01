@@ -221,7 +221,6 @@ namespace ProGenTracer.Utilities
         {
             return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
         }
-
         /// <summary>
         /// Negate Vector a
         /// </summary>
@@ -231,7 +230,6 @@ namespace ProGenTracer.Utilities
         {
             return new Vector3(-a.x,-a.y,-a.z);
         }
-
         /// <summary>
         /// Multiply Vector a by n
         /// </summary>
@@ -242,7 +240,6 @@ namespace ProGenTracer.Utilities
         {
             return new Vector3(a.x * n, a.y * n, a.z * n);
         }
-
         /// <summary>
         /// divide Vector a by n
         /// </summary>
@@ -253,9 +250,8 @@ namespace ProGenTracer.Utilities
         {
             return new Vector3(a.x / n, a.y / n, a.z / n);
         }
-
         /// <summary>
-        /// Check if Vector a and Vector b are equal
+        /// Returns true if Vector a and Vector b are equal
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
@@ -264,9 +260,8 @@ namespace ProGenTracer.Utilities
         {
             return (a.x == b.x) && (a.y == b.y) && (a.z == b.z);
         }
-
         /// <summary>
-        /// Check if Vector a and Vector are not equal
+        /// Returns true if Vector a and Vector are not equal
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>

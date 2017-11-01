@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Rendering\BoundingBox.cs" />
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Rendering\Mesh.cs" />
     <Compile Include="Rendering\SceneObject.cs" />

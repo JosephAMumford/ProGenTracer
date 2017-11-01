@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace ProGenTracer.Utilities
 {
-    class Matrix4x4
+    public class Matrix4x4
     {
+        /// <summary>
+        /// Array of matrix values
+        /// </summary>
         public double[] m = new double[16];
 
         public Matrix4x4()

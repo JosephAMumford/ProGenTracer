@@ -12,15 +12,45 @@ namespace ProGenTracer.Utilities
     public class RayHit
     {
         //Public Variables
+        /// <summary>
+        /// Has ray hit any geometry
+        /// </summary>
         public bool isHit = false;
+        /// <summary>
+        /// Point in World Space where ray hit
+        /// </summary>
         public Vector3 hitPoint = new Vector3();
+        /// <summary>
+        /// Normal of hit point
+        /// </summary>
         public Vector3 normal = new Vector3();
+        /// <summary>
+        /// Used in face lighting - DELETE
+        /// </summary>
         public double ratio = 0;
+        /// <summary>
+        /// UV Coordinate of hit point
+        /// </summary>
         public Vector2 uv = new Vector2();
+        /// <summary>
+        /// Distance of hit point from ray origin
+        /// </summary>
         public double distance = 0;
+        /// <summary>
+        /// Color of hit point
+        /// </summary>
         public Utilities.Color hitColor = new Utilities.Color();
+        /// <summary>
+        /// Id of scene object that ray hit
+        /// </summary>
         public int HitObjectID;
+        /// <summary>
+        /// Distance value
+        /// </summary>
         public double near;
+        /// <summary>
+        /// Triangle index of hit point
+        /// </summary>
         public int index;
 
         //Public Functions

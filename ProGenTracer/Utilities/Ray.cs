@@ -12,8 +12,17 @@ namespace ProGenTracer.Utilities
     public class Ray
     {
         //Public Variables
+        /// <summary>
+        /// Starting point of ray
+        /// </summary>
         public Vector3 Origin;
+        /// <summary>
+        /// Direction vector of ray
+        /// </summary>
         public Vector3 Direction;
+        /// <summary>
+        /// How far the ray goes in direction
+        /// </summary>
         public double Distance;
 
         /// <summary>

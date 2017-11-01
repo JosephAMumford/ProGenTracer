@@ -63,39 +63,116 @@ namespace ProGenTracer
         {
             SceneObject so = new SceneObject();
             Mesh newMesh = new Mesh();
-            so.position = new Utilities.Vector3(-1, 0, 8);
+            so.Position = new Utilities.Vector3(1, 0, 4);
             List<Vector3> newVertices = new List<Vector3>();
             List<int> newTriangles = new List<int>();
             Material mat = new Material();
-            mat.color = Utilities.Color.Set(0.0, 0.0, 1.0);
+            mat.MainColor = Utilities.Color.Set(0.0, 0.0, 1.0);
             mat.Specular = 25;
             mat.Type = 3;
-            //Clockwise rotation
-            newVertices.Add(new Vector3(0.0, -1, 3));
-            newVertices.Add(new Vector3(-1.0, -1, 3));
-            newVertices.Add(new Vector3(-1.0, 1, 4));
-            newVertices.Add(new Vector3(0.0, 1, 4));
-            newMesh.SetVertices(newVertices);
-
+            Vector3 size = new Vector3(1, 1, 1);
+            Vector3 d = new Vector3(size.x * 0.5, size.y * 0.5, size.z * 0.5);
+            //Front
+            newVertices.Add(new Vector3(d.x, -d.y, -d.z));
+            newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, -d.z));
+            newVertices.Add(new Vector3(d.x, d.y, -d.z));
             newTriangles.Add(0);
             newTriangles.Add(1);
             newTriangles.Add(2);
             newTriangles.Add(0);
             newTriangles.Add(2);
             newTriangles.Add(3);
+
+            //Back
+            newVertices.Add(new Vector3(-d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(d.x, d.y, d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, d.z));
+            newTriangles.Add(0);
+            newTriangles.Add(1);
+            newTriangles.Add(2);
+            newTriangles.Add(0);
+            newTriangles.Add(2);
+            newTriangles.Add(3);
+
+            //Top
+            newVertices.Add(new Vector3(d.x, d.y, -d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, -d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, d.z));
+            newVertices.Add(new Vector3(d.x, d.y, d.z));
+            newTriangles.Add(0);
+            newTriangles.Add(1);
+            newTriangles.Add(2);
+            newTriangles.Add(0);
+            newTriangles.Add(2);
+            newTriangles.Add(3);
+
+            //Bottom
+            newVertices.Add(new Vector3(d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(-d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
+            newVertices.Add(new Vector3(d.x, -d.y, -d.z));
+            newTriangles.Add(0);
+            newTriangles.Add(1);
+            newTriangles.Add(2);
+            newTriangles.Add(0);
+            newTriangles.Add(2);
+            newTriangles.Add(3);
+
+            //Left
+            newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
+            newVertices.Add(new Vector3(-d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, d.z));
+            newVertices.Add(new Vector3(-d.x, d.y, -d.z));
+            newTriangles.Add(0);
+            newTriangles.Add(1);
+            newTriangles.Add(2);
+            newTriangles.Add(0);
+            newTriangles.Add(2);
+            newTriangles.Add(3);
+
+            //Right
+            newVertices.Add(new Vector3(d.x, -d.y, d.z));
+            newVertices.Add(new Vector3(d.x, -d.y, -d.z));
+            newVertices.Add(new Vector3(d.x, d.y, -d.z));
+            newVertices.Add(new Vector3(d.x, d.y, d.z));
+            newTriangles.Add(0);
+            newTriangles.Add(1);
+            newTriangles.Add(2);
+            newTriangles.Add(0);
+            newTriangles.Add(2);
+            newTriangles.Add(3);
+
+            newMesh.SetVertices(newVertices);
             newMesh.SetTriangles(newTriangles);
+
+            //Clockwise rotation
+            //newVertices.Add(new Vector3(0.0, -1, 3));
+            //newVertices.Add(new Vector3(-1.0, -1, 3));
+            //newVertices.Add(new Vector3(-1.0, 1, 4));
+            //newVertices.Add(new Vector3(0.0, 1, 4));
+            //newMesh.SetVertices(newVertices);
+
+            //newTriangles.Add(0);
+            //newTriangles.Add(1);
+            //newTriangles.Add(2);
+            //newTriangles.Add(0);
+            //newTriangles.Add(2);
+            //newTriangles.Add(3);
+            //newMesh.SetTriangles(newTriangles);
 
             newMesh.ComputeNormals();
 
-            so.mesh = newMesh;
-            so.material = mat;
+            so.Mesh = newMesh;
+            so.Material = mat;
             scene.SceneObjects.Add(so);
 
             SceneObject s1 = new SceneObject();
-            s1.position = new Utilities.Vector3(0, 0, 0);
+            s1.Position = new Utilities.Vector3(0, 0, 0);
             Mesh mesh1 = new Mesh();
             Material mat1 = new Material();
-            mat1.color = Utilities.Color.Set(1.0, 1.0, 1.0);
+            mat1.MainColor = Utilities.Color.Set(1.0, 1.0, 1.0);
             mat1.Specular = 25;
             mat1.Type = 3;
             newVertices.Clear();
@@ -117,21 +194,21 @@ namespace ProGenTracer
 
             mesh1.ComputeNormals();
 
-            s1.mesh = mesh1;
-            s1.material = mat1;
+            s1.Mesh = mesh1;
+            s1.Material = mat1;
             scene.SceneObjects.Add(s1);
 
             SceneObject s3 = new SceneObject();
-            s3.position = new Vector3(0.5, 0, 3);
+            s3.Position = new Vector3(0.5, 0, 3);
             Mesh mesh2 = GenerateSphere();
             Material mat2 = new Material();
-            mat2.color = Utilities.Color.Set(0.0, 1.0, 0.0);
+            mat2.MainColor = Utilities.Color.Set(0.0, 1.0, 0.0);
             mat2.Type = 3;
 
             mesh2.ComputeNormals();
 
-            s3.mesh = mesh2;
-            s3.material = mat2;
+            s3.Mesh = mesh2;
+            s3.Material = mat2;
             //scene.SceneObjects.Add(s3);
 
             Light newlight = new Light();
@@ -261,31 +338,31 @@ namespace ProGenTracer
             if (hit.isHit)
             {
                 Vector3 hitPoint = hit.hitPoint;
-                Vector3 Normal = scene.SceneObjects[hit.HitObjectID].mesh.GetNormal(hit.index);
+                Vector3 Normal = scene.SceneObjects[hit.HitObjectID].Mesh.GetNormal(hit.index);
                 Vector2 st = new Vector2();         //St Coordinates
 
                 //GetSurfaceProperties
                 Vector3 temp = hitPoint;
 
                 //Get Material Type
-                Material mat = scene.SceneObjects[hit.HitObjectID].material;
+                Material mat = scene.SceneObjects[hit.HitObjectID].Material;
 
                 //Default
                 if (mat.Type == 0)       
                 {
-                    newColor = mat.color;
+                    newColor = mat.MainColor;
                 }
 
                 //Flat Shading
                 if (mat.Type == 1)
                 {
-                    newColor = mat.color * Math.Max(0, Vector3.Dot(Normal, -ray.Direction));
+                    newColor = mat.MainColor * Math.Max(0, Vector3.Dot(Normal, -ray.Direction));
                 }
 
                 //Smooth Shading - Need to vertex normals
                 if(mat.Type == 2)
                 {
-                    Mesh mesh = scene.SceneObjects[hit.HitObjectID].mesh;
+                    Mesh mesh = scene.SceneObjects[hit.HitObjectID].Mesh;
                     Vector3 n0 = mesh.normals[mesh.triangles[hit.index]];
                     Vector3 n1 = mesh.normals[mesh.triangles[hit.index + 1]];
                     Vector3 n2 = mesh.normals[mesh.triangles[hit.index + 2]];
@@ -294,7 +371,7 @@ namespace ProGenTracer
                     Normal += (n1 * hit.uv.x);
                     Normal += (n2 * hit.uv.y);
 
-                    newColor = mat.color * Math.Max(0, Vector3.Dot(Normal, -ray.Direction));
+                    newColor = mat.MainColor * Math.Max(0, Vector3.Dot(Normal, -ray.Direction));
                 }
 
                 //Diffuse
@@ -306,8 +383,8 @@ namespace ProGenTracer
                     double cosTheta = Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
                     Vector3 R = Vector3.Reflect(-L, Normal);
                     double cosAlpha = Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
-                    Utilities.Color ambient = (AmbientColor * mat.color);
-                    Utilities.Color diffuse = mat.color * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
+                    Utilities.Color ambient = (AmbientColor * mat.MainColor);
+                    Utilities.Color diffuse = mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
                     Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 7) * dist;
                     newColor = ambient + diffuse + specular;               
                 }
@@ -333,9 +410,9 @@ namespace ProGenTracer
 
             for (int i = 0; i < scene.SceneObjects.Count; i++)
             {
-                int numOfTriangles = scene.SceneObjects[i].mesh.triangles.Length / 3;
-                Mesh m = scene.SceneObjects[i].mesh;
-                Vector3 position = scene.SceneObjects[i].position;    
+                int numOfTriangles = scene.SceneObjects[i].Mesh.triangles.Length / 3;
+                Mesh m = scene.SceneObjects[i].Mesh;
+                Vector3 position = scene.SceneObjects[i].Position;    
                 int index = 0;
                 
                   

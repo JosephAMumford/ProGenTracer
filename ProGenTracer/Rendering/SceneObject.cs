@@ -8,12 +8,30 @@ namespace ProGenTracer.Rendering
 {
     public class SceneObject
     {
-        public string name = "";
-        public bool active = true;
-        public Vector3 position = new Vector3();
-        public Vector3 rotation = new Vector3();
-        public Mesh mesh;
-        public Material material;
-
+        /// <summary>
+        /// Name of scene object
+        /// </summary>
+        public string Name = "";
+        /// <summary>
+        /// Is scene object active in scene.  Render
+        /// if true
+        /// </summary>
+        public bool Active = true;
+        /// <summary>
+        /// Center position of scene object
+        /// </summary>
+        public Vector3 Position = new Vector3();
+        /// <summary>
+        /// Rotation of scene object
+        /// </summary>
+        public Vector3 Rotation = new Vector3();
+        /// <summary>
+        /// Mesh of scene object
+        /// </summary>
+        public Mesh Mesh;
+        /// <summary>
+        /// Material of scene object
+        /// </summary>
+        public Material Material;
     }
 }
