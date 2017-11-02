@@ -41,77 +41,85 @@ namespace ProGenTracer.Rendering
 
             Vector3 d = new Vector3(Scale.x * 0.5, Scale.y * 0.5, Scale.z * 0.5);
 
+            int index = 0;
+
             //Front
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Back
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Top
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Bottom
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Left
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Right
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             Mesh.SetVertices(newVertices);
             Mesh.SetTriangles(newTriangles);

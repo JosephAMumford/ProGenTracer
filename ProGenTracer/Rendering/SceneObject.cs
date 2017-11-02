@@ -28,10 +28,14 @@ namespace ProGenTracer.Rendering
         /// <summary>
         /// Mesh of scene object
         /// </summary>
-        public Mesh Mesh;
+        public Mesh Mesh = new Mesh();
         /// <summary>
         /// Material of scene object
         /// </summary>
         public Material Material;
+        /// <summary>
+        /// Boudning box of scene obeject
+        /// </summary>
+        public BoundingBox BBox = new BoundingBox();
     }
 }

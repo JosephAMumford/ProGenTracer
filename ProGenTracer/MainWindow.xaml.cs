@@ -61,9 +61,10 @@ namespace ProGenTracer
 
         public void GenerateScene(Scene scene)
         {
+            //Scene Object 1
             SceneObject so = new SceneObject();
             Mesh newMesh = new Mesh();
-            so.Position = new Utilities.Vector3(1, 0, 4);
+            so.Position = new Utilities.Vector3(-1, -1, 3);
             List<Vector3> newVertices = new List<Vector3>();
             List<int> newTriangles = new List<int>();
             Material mat = new Material();
@@ -72,102 +73,98 @@ namespace ProGenTracer
             mat.Type = 3;
             Vector3 size = new Vector3(1, 1, 1);
             Vector3 d = new Vector3(size.x * 0.5, size.y * 0.5, size.z * 0.5);
+            so.BBox.Scale = size;
+            so.BBox.ResizeBoundingBox();
+
+            int index = 0;
+
             //Front
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Back
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Top
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Bottom
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Left
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, d.z));
             newVertices.Add(new Vector3(-d.x, d.y, -d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             //Right
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
             newVertices.Add(new Vector3(d.x, -d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
             newVertices.Add(new Vector3(d.x, d.y, d.z));
-            newTriangles.Add(0);
-            newTriangles.Add(1);
-            newTriangles.Add(2);
-            newTriangles.Add(0);
-            newTriangles.Add(2);
-            newTriangles.Add(3);
+            index = newVertices.Count - 4;
+            newTriangles.Add(index);
+            newTriangles.Add(index + 1);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index);
+            newTriangles.Add(index + 2);
+            newTriangles.Add(index + 3);
 
             newMesh.SetVertices(newVertices);
             newMesh.SetTriangles(newTriangles);
-
-            //Clockwise rotation
-            //newVertices.Add(new Vector3(0.0, -1, 3));
-            //newVertices.Add(new Vector3(-1.0, -1, 3));
-            //newVertices.Add(new Vector3(-1.0, 1, 4));
-            //newVertices.Add(new Vector3(0.0, 1, 4));
-            //newMesh.SetVertices(newVertices);
-
-            //newTriangles.Add(0);
-            //newTriangles.Add(1);
-            //newTriangles.Add(2);
-            //newTriangles.Add(0);
-            //newTriangles.Add(2);
-            //newTriangles.Add(3);
-            //newMesh.SetTriangles(newTriangles);
-
             newMesh.ComputeNormals();
 
             so.Mesh = newMesh;
             so.Material = mat;
             scene.SceneObjects.Add(so);
 
+            //Scene Object 2
             SceneObject s1 = new SceneObject();
             s1.Position = new Utilities.Vector3(0, 0, 0);
             Mesh mesh1 = new Mesh();
@@ -175,6 +172,9 @@ namespace ProGenTracer
             mat1.MainColor = Utilities.Color.Set(1.0, 1.0, 1.0);
             mat1.Specular = 25;
             mat1.Type = 3;
+            s1.BBox.Scale = new Vector3(20, 1, 40);
+            s1.BBox.ResizeBoundingBox();
+
             newVertices.Clear();
             newTriangles.Clear();
 
@@ -198,22 +198,25 @@ namespace ProGenTracer
             s1.Material = mat1;
             scene.SceneObjects.Add(s1);
 
+            //Scene Object 3
             SceneObject s3 = new SceneObject();
             s3.Position = new Vector3(0.5, 0, 3);
             Mesh mesh2 = GenerateSphere();
             Material mat2 = new Material();
             mat2.MainColor = Utilities.Color.Set(0.0, 1.0, 0.0);
             mat2.Type = 3;
-
+            s3.BBox.Scale = new Vector3(1, 1, 1);
+            s3.BBox.ResizeBoundingBox();
             mesh2.ComputeNormals();
 
             s3.Mesh = mesh2;
             s3.Material = mat2;
-            //scene.SceneObjects.Add(s3);
+            scene.SceneObjects.Add(s3);
 
+            //Light
             Light newlight = new Light();
-            newlight.Position = new Utilities.Vector3(0, 2, 3);
-            newlight.Direction = new Vector3(1, -0.8, 1);
+            newlight.Position = new Utilities.Vector3(0, 2, 5);
+            newlight.Direction = new Vector3(-.5, -1, 0);
             newlight.Type = 0;
             newlight.Intensity = 8.0;
             newlight.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
@@ -410,32 +413,58 @@ namespace ProGenTracer
 
             for (int i = 0; i < scene.SceneObjects.Count; i++)
             {
-                int numOfTriangles = scene.SceneObjects[i].Mesh.triangles.Length / 3;
-                Mesh m = scene.SceneObjects[i].Mesh;
-                Vector3 position = scene.SceneObjects[i].Position;    
-                int index = 0;
-                
-                  
-                for (int j = 0; j < numOfTriangles; j++)
-                {
-                    Vector3 v0 = position + m.vertices[m.triangles[index]];
-                    Vector3 v1 = position + m.vertices[m.triangles[index + 1]];
-                    Vector3 v2 = position + m.vertices[m.triangles[index + 2]];
 
-                    if (rayTriangleIntersect(v0, v1, v2, ray, ref near, ref rayHit.uv))
+                //Check bounding box
+                int numBoxTriangles = scene.SceneObjects[i].BBox.Mesh.triangles.Length / 3;
+                Mesh b = scene.SceneObjects[i].BBox.Mesh;
+                Vector3 bPosition = scene.SceneObjects[i].Position;
+                int bIndex = 0;
+                bool HitBBox = false;
+
+                for(int k = 0; k < numBoxTriangles; k++)
+                {
+                    Vector3 b0 = bPosition + b.vertices[b.triangles[bIndex]];
+                    Vector3 b1 = bPosition + b.vertices[b.triangles[bIndex + 1]];
+                    Vector3 b2 = bPosition + b.vertices[b.triangles[bIndex + 2]];
+                    double bBnear = 0;
+                    Vector2 bUV = new Vector2();
+                    if(rayTriangleIntersect(b0, b1, b2, ray, ref bBnear, ref bUV))
                     {
-                        if(near <= rayHit.near)
-                        {
-                            rayHit.index = index;
-                            rayHit.near = near;
-                            ray.Distance = near;
-                            rayHit.isHit = true;
-                            rayHit.HitObjectID = i;
-                            rayHit.hitPoint = ray.Origin + ray.Direction * near;
-                        }
+                        HitBBox = true;
+                        break;
                     }
 
-                    index += 3;
+                    bIndex += 3;
+                }
+
+                if(HitBBox == true)
+                {
+                    int numOfTriangles = scene.SceneObjects[i].Mesh.triangles.Length / 3;
+                    Mesh m = scene.SceneObjects[i].Mesh;
+                    Vector3 position = scene.SceneObjects[i].Position;
+                    int index = 0;
+
+                    for (int j = 0; j < numOfTriangles; j++)
+                    {
+                        Vector3 v0 = position + m.vertices[m.triangles[index]];
+                        Vector3 v1 = position + m.vertices[m.triangles[index + 1]];
+                        Vector3 v2 = position + m.vertices[m.triangles[index + 2]];
+
+                        if (rayTriangleIntersect(v0, v1, v2, ray, ref near, ref rayHit.uv))
+                        {
+                            if (near <= rayHit.near)
+                            {
+                                rayHit.index = index;
+                                rayHit.near = near;
+                                ray.Distance = near;
+                                rayHit.isHit = true;
+                                rayHit.HitObjectID = i;
+                                rayHit.hitPoint = ray.Origin + ray.Direction * near;
+                            }
+                        }
+
+                        index += 3;
+                    }
                 }
             }
 
