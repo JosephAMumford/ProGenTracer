@@ -31,6 +31,8 @@ namespace ProGenTracer.Utilities
         /// </summary>
         public int MaxDepth;
 
+        public string RenderTime;
+
         public double Bias;
         /// <summary>
         /// Default background color

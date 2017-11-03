@@ -98,6 +98,8 @@
     <Compile Include="Rendering\BoundingBox.cs" />
     <Compile Include="Rendering\Material.cs" />
     <Compile Include="Rendering\Mesh.cs" />
+    <Compile Include="Rendering\MeshBuilder.cs" />
+    <Compile Include="Rendering\Renderer.cs" />
     <Compile Include="Rendering\SceneObject.cs" />
     <Compile Include="Rendering\Texture.cs" />
     <Compile Include="Utilities\Camera.cs" />
