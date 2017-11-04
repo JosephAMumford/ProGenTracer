@@ -37,6 +37,8 @@ namespace ProGenTracer.Rendering
 
         public void RenderScene()
         {
+            Camera SceneCamera = Camera.Create(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+
             //Scene newScene = new Scene();
             //GenerateScene(newScene);
 
@@ -44,24 +46,12 @@ namespace ProGenTracer.Rendering
 
             RenderTimer.Start();
 
-            //double fov = double.Parse( FovInput.Text);
             double scale = Math.Tan(deg2rad(rs.FieldOfView * 0.5));
             double imageAspectRatio = rs.ImageWidth / rs.ImageHeight;
             Utilities.Color pixelColor = new Utilities.Color();
 
             Ray newRay = new Ray();
-            newRay.Origin = new Vector3(0,6,-4);
-
-            //Vector3 cameraDirection = new Utilities.Vector3(-1,0,0);
-
-            Vector3 target = new Vector3(0, 0, 0);
-
-            //Matrix4x4 cameraToWorld = Matrix4x4.identity;
-
-            Matrix4x4 cameraToWorld = LookAt(newRay.Origin, target);
-
-            //Vector3 orig = new Vector3();
-            //orig = Matrix4x4.MultiplyPoint(new Vector3(0, 0, -2), cameraToWorld);
+            newRay.Origin = new Vector3(0,0,-5);
 
             for (int y = 0; y < rs.ImageHeight; y++)
             {
@@ -75,17 +65,22 @@ namespace ProGenTracer.Rendering
                     int depth = rs.MaxDepth;
                     //for each pixel - Color = castRay( trace(find nearest object), use material to determine color)) 
 
+                    //Ray superRay = new Ray();
+                    //superRay.Origin = SceneCamera.position;
+                    //superRay.Direction = Vector3.Normalize(SceneCamera.forward + new Vector3(px, py, 1));
+                    //superRay.Distance = double.PositiveInfinity;
+                    //pixelColor = CastRay(superRay, CurrentScene, ref depth);
 
-                    Vector3 dir = new Vector3();
-                    dir = Matrix4x4.MultiplyVector(newRay.Direction, cameraToWorld);
-                    dir = Vector3.Normalize(dir);
-                    Ray superRay = new Ray();
-                    superRay.Origin = newRay.Origin;
-                    superRay.Direction = dir;
-                    superRay.Distance = double.PositiveInfinity;
-                    pixelColor = CastRay(superRay, CurrentScene, ref depth);
+                    //Vector3 dir = new Vector3();
+                    //dir = Matrix4x4.MultiplyVector(newRay.Direction, cameraToWorld);
+                    //dir = Vector3.Normalize(dir);
+                    //Ray superRay = new Ray();
+                    //superRay.Origin = newRay.Origin;
+                    //superRay.Direction = dir;
+                    //superRay.Distance = double.PositiveInfinity;
+                    //pixelColor = CastRay(superRay, CurrentScene, ref depth);
 
-                    //pixelColor = CastRay(newRay, CurrentScene, ref depth);
+                    pixelColor = CastRay(newRay, CurrentScene, ref depth);
 
                     RenderImage.SetPixel(x, y, pixelColor.ToDrawingColor());
                     if (x == 0) RenderBox.Refresh();
@@ -116,9 +111,9 @@ namespace ProGenTracer.Rendering
             camToWorld.m[8] = forward.x;
             camToWorld.m[9] = forward.y;
             camToWorld.m[10] = forward.z;
-            camToWorld.m[12] = to.x;
-            camToWorld.m[13] = to.y;
-            camToWorld.m[14] = to.z;
+            camToWorld.m[12] = from.x;
+            camToWorld.m[13] = from.y;
+            camToWorld.m[14] = from.z;
             camToWorld.m[15] = 1;
 
             return camToWorld;
@@ -134,11 +129,11 @@ namespace ProGenTracer.Rendering
             //Scene Object 1
             SceneObject so = new SceneObject();
             Mesh newMesh = new Mesh();
-            so.Position = new Utilities.Vector3(-1, 0, 0);
+            so.Position = new Utilities.Vector3(0, 0, 0);
             List<Vector3> newVertices = new List<Vector3>();
             List<int> newTriangles = new List<int>();
             Material mat = new Material();
-            mat.MainColor = Utilities.Color.Set(0.0, 1.0, 1.0);
+            mat.MainColor = Utilities.Color.Set(0.75, 0.75, 0.75);
             mat.Specular = 25;
             mat.Type = 3;
             Vector3 size = new Vector3(1, 1, 1);
@@ -234,6 +229,20 @@ namespace ProGenTracer.Rendering
             so.Material = mat;
             scene.SceneObjects.Add(so);
 
+            //Scene Object 4
+            SceneObject s4 = new SceneObject();
+            s4.Position = new Utilities.Vector3(2, 0, 0);
+            Material mat4 = new Material();
+            mat4.MainColor = Utilities.Color.Set(1.0, 0.0, 0.0);
+            mat4.Specular = 25;
+            mat4.Type = 3;
+            s4.BBox.Scale = new Vector3(1, 1, 1);
+            s4.BBox.ResizeBoundingBox();
+
+            s4.Mesh = newMesh;
+            s4.Material = mat4;
+            scene.SceneObjects.Add(s4);
+
             //Scene Object 2
             SceneObject s1 = new SceneObject();
             s1.Position = new Utilities.Vector3(0, 0, 0);
@@ -281,7 +290,7 @@ namespace ProGenTracer.Rendering
 
             s3.Mesh = mesh2;
             s3.Material = mat2;
-            scene.SceneObjects.Add(s3);
+            //scene.SceneObjects.Add(s3);
 
             //Light
             Light newlight = new Light();
