@@ -37,7 +37,7 @@ namespace ProGenTracer.Rendering
 
         public void RenderScene()
         {
-            Camera SceneCamera = Camera.Create(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+            Camera SceneCamera = Camera.Create(new Vector3(0, 0, -2), new Vector3(0, 1, 0));
 
             //Scene newScene = new Scene();
             //GenerateScene(newScene);
@@ -51,14 +51,16 @@ namespace ProGenTracer.Rendering
             Utilities.Color pixelColor = new Utilities.Color();
 
             Ray newRay = new Ray();
-            newRay.Origin = new Vector3(0,0,-5);
+            newRay.Origin = SceneCamera.position;
+
+            Matrix4x4 CameraToWorld = Matrix4x4.identity;
 
             for (int y = 0; y < rs.ImageHeight; y++)
             {
                 for (int x = 0; x < rs.ImageWidth; x++)
                 {
                     //generate ray
-                    double px = (2 * (x + 0.5) / (double)rs.ImageWidth - 1) * imageAspectRatio * scale;
+                    double px = (2 * (x+ 0.5) / (double)rs.ImageWidth - 1) * imageAspectRatio * scale;
                     double py = (1 - 2 * (y + 0.5) / (double)rs.ImageHeight) * scale;
                     newRay.Direction = Vector3.Normalize(new Vector3(px, py, 1));
                     newRay.Distance = double.PositiveInfinity;
@@ -71,16 +73,17 @@ namespace ProGenTracer.Rendering
                     //superRay.Distance = double.PositiveInfinity;
                     //pixelColor = CastRay(superRay, CurrentScene, ref depth);
 
-                    //Vector3 dir = new Vector3();
-                    //dir = Matrix4x4.MultiplyVector(newRay.Direction, cameraToWorld);
-                    //dir = Vector3.Normalize(dir);
-                    //Ray superRay = new Ray();
-                    //superRay.Origin = newRay.Origin;
-                    //superRay.Direction = dir;
-                    //superRay.Distance = double.PositiveInfinity;
-                    //pixelColor = CastRay(superRay, CurrentScene, ref depth);
+                    Vector3 dir = new Vector3();
+                    //dir = Matrix4x4.MultiplyVector(newRay.Direction, CameraToWorld);
+                    dir = Matrix4x4.MultiplyVector(new Vector3(px, py, 1), CameraToWorld);
+                    dir = Vector3.Normalize(dir);
+                    Ray superRay = new Ray();
+                    superRay.Origin = newRay.Origin;
+                    superRay.Direction = dir;
+                    superRay.Distance = double.PositiveInfinity;
+                    pixelColor = CastRay(superRay, CurrentScene, ref depth);
 
-                    pixelColor = CastRay(newRay, CurrentScene, ref depth);
+                    //pixelColor = CastRay(newRay, CurrentScene, ref depth);
 
                     RenderImage.SetPixel(x, y, pixelColor.ToDrawingColor());
                     if (x == 0) RenderBox.Refresh();
