@@ -17,6 +17,7 @@ namespace ProGenTracer.Rendering
         public PictureBox RenderBox;
         public RenderSettings rs;
         public Bitmap RenderImage;
+        Random rand = new Random();
 
         public Renderer()
         {
@@ -37,13 +38,9 @@ namespace ProGenTracer.Rendering
 
         public void RenderScene()
         {
-            Camera SceneCamera = Camera.Create(new Vector3(0, 0, -2), new Vector3(0, 1, 0));
-
-            //Scene newScene = new Scene();
-            //GenerateScene(newScene);
+            Camera SceneCamera = Camera.Create(new Vector3(4, 4, 4), new Vector3(0, 0.5, 0));
 
             Stopwatch RenderTimer = new Stopwatch();
-
             RenderTimer.Start();
 
             double scale = Math.Tan(deg2rad(rs.FieldOfView * 0.5));
@@ -53,10 +50,7 @@ namespace ProGenTracer.Rendering
             Ray newRay = new Ray();
             newRay.Origin = SceneCamera.position;
 
-            Vector3 CameraPosition = new Vector3(4,4,4);
-            Vector3 CameraTarget = new Utilities.Vector3(0, 0.5, 0);
-
-            Matrix4x4 CameraToWorld = LookAt(CameraPosition, CameraTarget);
+            Matrix4x4 CameraToWorld = LookAt(SceneCamera.position, SceneCamera.target);
 
             for (int y = 0; y < rs.ImageHeight; y++)
             {
@@ -68,25 +62,17 @@ namespace ProGenTracer.Rendering
                     newRay.Direction = Vector3.Normalize(new Vector3(px, py, -1));
                     newRay.Distance = double.PositiveInfinity;
                     int depth = rs.MaxDepth;
-                    //for each pixel - Color = castRay( trace(find nearest object), use material to determine color)) 
 
-                    //Ray superRay = new Ray();
-                    //superRay.Origin = SceneCamera.position;
-                    //superRay.Direction = Vector3.Normalize(SceneCamera.forward + new Vector3(px, py, 1));
-                    //superRay.Distance = double.PositiveInfinity;
-                    //pixelColor = CastRay(superRay, CurrentScene, ref depth);
 
                     Vector3 dir = new Vector3();
                     //dir = Matrix4x4.MultiplyVector(newRay.Direction, CameraToWorld);
                     dir = Matrix4x4.MultiplyVector(new Vector3(px, py, -1), CameraToWorld);
                     dir = Vector3.Normalize(dir);
                     Ray superRay = new Ray();
-                    superRay.Origin = CameraPosition;
+                    superRay.Origin = SceneCamera.position;
                     superRay.Direction = dir;
                     superRay.Distance = double.PositiveInfinity;
                     pixelColor = CastRay(superRay, CurrentScene, ref depth);
-
-                    //pixelColor = CastRay(newRay, CurrentScene, ref depth);
 
                     RenderImage.SetPixel(x, y, pixelColor.ToDrawingColor());
                     if (x == 0) RenderBox.Refresh();
@@ -97,7 +83,6 @@ namespace ProGenTracer.Rendering
             RenderTimer.Stop();
 
             rs.RenderTime = RenderTimer.Elapsed.ToString();
-            //RenderTime.Content = RenderString;
         }
 
         Matrix4x4 LookAt(Vector3 from, Vector3 to)
@@ -136,11 +121,23 @@ namespace ProGenTracer.Rendering
             Mesh newMesh = new Mesh();
             so.Position = new Utilities.Vector3(0, 0.5, 0);
             List<Vector3> newVertices = new List<Vector3>();
+            List<Vector2> newUVs = new List<Vector2>();
             List<int> newTriangles = new List<int>();
             Material mat = new Material();
             mat.MainColor = Utilities.Color.Set(0.75, 0.75, 0.75);
             mat.Specular = 25;
             mat.Type = 3;
+            Texture newTexture = new Texture(3, 3);
+            newTexture.PixelMap[0] = Utilities.Color.Set(1.0, 0.0, 0.0);
+            newTexture.PixelMap[1] = Utilities.Color.Set(0.5, 0.5, 0.5);
+            newTexture.PixelMap[2] = Utilities.Color.Set(1.0, 1.0, 0.0);
+            newTexture.PixelMap[3] = Utilities.Color.Set(0.25, 0.25, 0.0);
+            newTexture.PixelMap[4] = Utilities.Color.Set(0.0, 1.0, 0.0);
+            newTexture.PixelMap[5] = Utilities.Color.Set(0.0, 0.0, 1.0);
+            newTexture.PixelMap[6] = Utilities.Color.Set(0.0, 1.0, 1.0);
+            newTexture.PixelMap[7] = Utilities.Color.Set(1.0, 0.0, 1.0);
+            newTexture.PixelMap[8] = Utilities.Color.Set(0.75, 1.0, 1.0);
+            mat.MainTexture = newTexture;
             Vector3 size = new Vector3(1, 1, 1);
             Vector3 d = new Vector3(size.x * 0.5, size.y * 0.5, size.z * 0.5);
             so.BBox.Scale = size;
@@ -160,6 +157,10 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             //Back
             newVertices.Add(new Vector3(-d.x, -d.y, d.z));
@@ -173,6 +174,10 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             //Top
             newVertices.Add(new Vector3(d.x, d.y, -d.z));
@@ -186,6 +191,10 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             //Bottom
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
@@ -199,6 +208,10 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             //Left
             newVertices.Add(new Vector3(-d.x, -d.y, -d.z));
@@ -212,6 +225,10 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             //Right
             newVertices.Add(new Vector3(d.x, -d.y, d.z));
@@ -225,9 +242,14 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(index);
             newTriangles.Add(index + 2);
             newTriangles.Add(index + 3);
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
 
             newMesh.SetVertices(newVertices);
             newMesh.SetTriangles(newTriangles);
+            newMesh.SetUVs(newUVs);
             newMesh.ComputeNormals();
 
             so.Mesh = newMesh;
@@ -275,6 +297,12 @@ namespace ProGenTracer.Rendering
             newTriangles.Add(2);
             newTriangles.Add(3);
             mesh1.SetTriangles(newTriangles);
+
+            newUVs.Add(new Utilities.Vector2(1, 0));
+            newUVs.Add(new Utilities.Vector2(0, 0));
+            newUVs.Add(new Utilities.Vector2(0, 1));
+            newUVs.Add(new Utilities.Vector2(1, 1));
+            mesh1.SetUVs(newUVs);
 
             mesh1.ComputeNormals();
 
@@ -422,6 +450,7 @@ namespace ProGenTracer.Rendering
                 //Diffuse
                 if (mat.Type == 3)
                 {
+                    
                     Vector3 L = -scene.Lights[0].Direction;
                     double distance = Vector3.Magnitude(scene.Lights[0].Position - hit.hitPoint);
                     double dist = 1 / (distance * distance);
@@ -429,7 +458,27 @@ namespace ProGenTracer.Rendering
                     Vector3 R = Vector3.Reflect(-L, Normal);
                     double cosAlpha = Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
                     Utilities.Color ambient = (AmbientColor * mat.MainColor);
-                    Utilities.Color diffuse = mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
+
+                    Utilities.Color textureColor = Utilities.Color.Set(1.0, 1.0, 1.0);
+
+                    if (mat.MainTexture.PixelMap != null)
+                    {
+                        // texture coordinates
+                        //const Vec2f &st0 = texCoordinates[triIndex * 3];
+                        //const Vec2f &st1 = texCoordinates[triIndex * 3 + 1];
+                        //const Vec2f &st2 = texCoordinates[triIndex * 3 + 2];
+                        //hitTextureCoordinates = (1 - uv.x - uv.y) * st0 + uv.x * st1 + uv.y * st2;
+
+                        Vector2 st0 = scene.SceneObjects[hit.HitObjectID].Mesh.uv[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index]];
+                        Vector2 st1 = scene.SceneObjects[hit.HitObjectID].Mesh.uv[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 1]];
+                        Vector2 st2 = scene.SceneObjects[hit.HitObjectID].Mesh.uv[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 2]];
+                        Vector2 tex =  st0 * (1 - hit.uv.x - hit.uv.y) + st1 * hit.uv.x + st2 * hit.uv.y;
+
+                        int tx = (int)(tex.x * mat.MainTexture.Width);
+                        int ty = (int)(tex.y * mat.MainTexture.Height);
+                        textureColor = mat.MainTexture.GetPixel(tx, ty);
+                    }
+                    Utilities.Color diffuse = textureColor * mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
                     Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 7) * dist;
                     newColor = ambient + diffuse + specular;
                 }
@@ -521,6 +570,7 @@ namespace ProGenTracer.Rendering
             Vector3 edge2 = v2 - v0;
             Vector3 pvec = Vector3.Cross(ray.Direction, edge2);
             double det = Vector3.Dot(edge1, pvec);
+            //Ray and triangle are parallel is zero
             if (det == 0 || det < 0)
             {
                 return false;

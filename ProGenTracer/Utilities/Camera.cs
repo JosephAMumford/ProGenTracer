@@ -29,6 +29,7 @@ namespace ProGenTracer.Utilities
         /// Right vector of camera
         /// </summary>
         public Vector3 right;
+        public Vector3 target;
 
         //Public Functions
         /// <summary>
@@ -37,15 +38,14 @@ namespace ProGenTracer.Utilities
         /// <param name="pos"></param>
         /// <param name="lookAt"></param>
         /// <returns></returns>
-        public static Camera Create(Vector3 pos, Vector3 lookAt)
-        {
-
-            Vector3 newForward = Vector3.Normalize(lookAt - pos);
+        public static Camera Create(Vector3 pos, Vector3 tar)
+        { 
+            Vector3 newForward = Vector3.Normalize(tar - pos);
             Vector3 newDown = Vector3.down;
             Vector3 newRight = Vector3.Normalize(Vector3.Cross(newForward, newDown)) * 1.5;
             Vector3 newUp = Vector3.Normalize(Vector3.Cross(newForward, newRight)) * 1.5;
-            
-            return new Camera() { position = pos, forward = newForward, up = newUp, right = newRight };
+
+            return new Camera() { target = tar, position = pos, forward = newForward, up = newUp, right = newRight };
         }
     }
 }
