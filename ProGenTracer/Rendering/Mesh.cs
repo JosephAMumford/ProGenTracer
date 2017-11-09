@@ -87,6 +87,10 @@ namespace ProGenTracer.Rendering
         {
             normals = normalsList.ToArray();
         }
+        public void SetColors(List<Color> colorList)
+        {
+            colors = colorList.ToArray();
+        }
         /// <summary>
         /// Get face normal from triangle at index
         /// </summary>
