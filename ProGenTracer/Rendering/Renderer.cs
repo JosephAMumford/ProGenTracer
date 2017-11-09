@@ -38,7 +38,7 @@ namespace ProGenTracer.Rendering
 
         public void RenderScene()
         {
-            Camera SceneCamera = Camera.Create(new Vector3(3, 3, 0), new Vector3(0, 1, 0));
+            Camera SceneCamera = Camera.Create(new Vector3(3, 3, 7), new Vector3(0, 1, 0));
 
             Stopwatch RenderTimer = new Stopwatch();
             RenderTimer.Start();
@@ -330,10 +330,10 @@ namespace ProGenTracer.Rendering
             newUVs.Add(new Utilities.Vector2(1, 1));
             mesh1.SetUVs(newUVs);
 
-            newColors.Add(new Utilities.Color(1, 1, 0));
-            newColors.Add(new Utilities.Color(0, 1, 1));
-            newColors.Add(new Utilities.Color(1, 0, 1));
-            newColors.Add(new Utilities.Color(0, 1, 0));
+            newColors.Add(new Utilities.Color(0.25, 0.25, 0.25));
+            newColors.Add(new Utilities.Color(0.5, 0.5, 0.5));
+            newColors.Add(new Utilities.Color(1, 1, 1));
+            newColors.Add(new Utilities.Color(1, 1, 1));
             mesh1.SetColors(newColors);
 
             mesh1.ComputeNormals();
@@ -360,7 +360,7 @@ namespace ProGenTracer.Rendering
             //Light
             Light newlight = new Light();
             newlight.Position = new Utilities.Vector3(1, 3, 3);
-            newlight.Direction = new Vector3(-1, -1, -1);
+            newlight.Direction = new Vector3(-0.5, -1, -1);
             newlight.Type = 0;
             newlight.Intensity = 4.0;
             newlight.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
@@ -492,6 +492,7 @@ namespace ProGenTracer.Rendering
                     Utilities.Color ambient = (AmbientColor * mat.MainColor);
 
                     Utilities.Color textureColor = Utilities.Color.Set(1.0, 1.0, 1.0);
+                    Utilities.Color vertexColor = Utilities.Color.Set(1.0, 1.0, 1.0);
 
                     if (mat.MainTexture.PixelMap != null)
                     {
@@ -502,17 +503,16 @@ namespace ProGenTracer.Rendering
                         Vector2 tex =  st0 * (1 - hit.uv.x - hit.uv.y) + st1 * hit.uv.x + st2 * hit.uv.y;
 
                         //Vertex Color
-                        //Utilities.Color st0 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index]];
-                        //Utilities.Color st1 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 1]];
-                        //Utilities.Color st2 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 2]];
-                        //Utilities.Color tex = st0 * (1 - hit.uv.x - hit.uv.y) + st1 * hit.uv.x + st2 * hit.uv.y;                   
-                        //textureColor = tex;
+                        Utilities.Color vc0 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index]];
+                        Utilities.Color vc1 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 1]];
+                        Utilities.Color vc2 = scene.SceneObjects[hit.HitObjectID].Mesh.colors[scene.SceneObjects[hit.HitObjectID].Mesh.triangles[hit.index + 2]];
+                        vertexColor = vc0 * (1 - hit.uv.x - hit.uv.y) + vc1 * hit.uv.x + vc2 * hit.uv.y;
 
                         int tx = (int)(tex.x * mat.MainTexture.Width);
                         int ty = (int)(tex.y * mat.MainTexture.Height);
                         textureColor = mat.MainTexture.GetPixel(tx, ty);
                     }
-                    Utilities.Color diffuse = textureColor * mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
+                    Utilities.Color diffuse = vertexColor * textureColor * mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
                     Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 5) * dist;
                     newColor = ambient + diffuse + specular;
                 }
@@ -537,7 +537,8 @@ namespace ProGenTracer.Rendering
             rayHit.near = near;
 
             bool HitBBox = false;
-            int ObjectID = -1;
+            int ObjectID = 0;
+            
 
             for (int i = 0; i < scene.SceneObjects.Count; i++)
             {
@@ -546,20 +547,19 @@ namespace ProGenTracer.Rendering
                 Mesh b = scene.SceneObjects[i].BBox.Mesh;
                 Vector3 bPosition = scene.SceneObjects[i].Position;
                 int bIndex = 0;
-                double cNear = double.PositiveInfinity;
+                //double cNear = double.PositiveInfinity;
 
                 for (int k = 0; k < numBoxTriangles; k++)
                 {
                     Vector3 b0 = bPosition + b.vertices[b.triangles[bIndex]];
                     Vector3 b1 = bPosition + b.vertices[b.triangles[bIndex + 1]];
                     Vector3 b2 = bPosition + b.vertices[b.triangles[bIndex + 2]];
-                    double bBnear = double.PositiveInfinity;
                     Vector2 bUV = new Vector2();
-                    if (rayTriangleIntersect(b0, b1, b2, ray, ref bBnear, ref bUV))
+                    if (rayTriangleIntersect(b0, b1, b2, ray, ref near, ref bUV))
                     {
-                        if (bBnear < cNear)
+                        if (near < rayHit.near)
                         {
-                            cNear = bBnear;
+                            rayHit.near = near;
                             HitBBox = true;
                             ObjectID = i;
                         }
@@ -568,6 +568,9 @@ namespace ProGenTracer.Rendering
                     bIndex += 3;
                 }
             }
+
+            near = double.PositiveInfinity;
+            rayHit.near = near;
 
             if (HitBBox == true)
             {
