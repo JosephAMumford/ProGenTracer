@@ -124,6 +124,30 @@ namespace ProGenTracer.Utilities
             return a.Multiply(a, b);
         }
 
+        public static Matrix4x4 LookAt(Vector3 from, Vector3 to)
+        {
+            Vector3 forward = Vector3.Normalize(from - to);
+            Vector3 right = Vector3.Cross(Vector3.Normalize(new Vector3(0, 1, 0)), forward);
+            Vector3 up = Vector3.Cross(forward, right);
+
+            Matrix4x4 lookAtMatrix = new Matrix4x4();
+
+            lookAtMatrix.m[0] = right.x;
+            lookAtMatrix.m[1] = right.y;
+            lookAtMatrix.m[2] = right.z;
+            lookAtMatrix.m[4] = up.x;
+            lookAtMatrix.m[5] = up.y;
+            lookAtMatrix.m[6] = up.z;
+            lookAtMatrix.m[8] = forward.x;
+            lookAtMatrix.m[9] = forward.y;
+            lookAtMatrix.m[10] = forward.z;
+            lookAtMatrix.m[12] = from.x;
+            lookAtMatrix.m[13] = from.y;
+            lookAtMatrix.m[14] = from.z;
+
+            return lookAtMatrix;
+        }
+
 
     }
 }

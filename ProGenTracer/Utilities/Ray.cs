@@ -20,9 +20,7 @@ namespace ProGenTracer.Utilities
         /// Direction vector of ray
         /// </summary>
         public Vector3 Direction;
-        /// <summary>
-        /// How far the ray goes in direction
-        /// </summary>
+        
         public double Distance;
 
         /// <summary>

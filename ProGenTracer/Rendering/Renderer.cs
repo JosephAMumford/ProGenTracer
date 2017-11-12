@@ -19,60 +19,66 @@ namespace ProGenTracer.Rendering
         public Bitmap RenderImage;
         Random rand = new Random();
 
+        /// <summary>
+        /// Empty constructor
+        /// </summary>
         public Renderer()
         {
 
         }
-
+        /// <summary>
+        /// Constructor referencing PictureBox control box and
+        /// destination bitmap image for rendered scene
+        /// </summary>
+        /// <param name="box"></param>
+        /// <param name="image"></param>
         public Renderer(ref PictureBox box, ref Bitmap image)
         {
             RenderBox = box;
             RenderImage = image;
         }
-
+        /// <summary>
+        /// Initialize renderer with current render settings
+        /// </summary>
+        /// <param name="settings"></param>
         public void IntializeRenderer(RenderSettings settings)
         {
             rs = settings;
             GenerateScene(CurrentScene);
         }
-
+        /// <summary>
+        /// Renders the current scene to referenced bitmap image in PictureBox
+        /// </summary>
         public void RenderScene()
         {
-            Camera SceneCamera = Camera.Create(new Vector3(3, 3, 7), new Vector3(0, 1, 0));
+            Camera SceneCamera = Camera.Create(new Vector3(3, 3, 7), new Vector3(0, 1, 0));     // TO DO: Get this from scene file
+            Utilities.Color pixelColor = new Utilities.Color();                                 // Used to set pixel color in rendered image
+            Ray newRay = new Ray();
 
             Stopwatch RenderTimer = new Stopwatch();
             RenderTimer.Start();
 
-            double scale = Math.Tan(deg2rad(rs.FieldOfView * 0.5));
+            // Set image scale and aspect ratio
+            double scale = Math.Tan(MathExtensions.DegreesToRadians(rs.FieldOfView * 0.5));
             double imageAspectRatio = rs.ImageWidth / rs.ImageHeight;
-            Utilities.Color pixelColor = new Utilities.Color();
 
-            Ray newRay = new Ray();
+            // Create camera rotation matrix and set ray origin
             newRay.Origin = SceneCamera.position;
+            Matrix4x4 CameraToWorld = Matrix4x4.LookAt(SceneCamera.position, SceneCamera.target);
 
-            Matrix4x4 CameraToWorld = LookAt(SceneCamera.position, SceneCamera.target);
-
+            // For each pixel in the image, cast a ray from camera into world space
             for (int y = 0; y < rs.ImageHeight; y++)
             {
                 for (int x = 0; x < rs.ImageWidth; x++)
                 {
-                    //generate ray
+                    // Generate ray direction
                     double px = (2 * (x+ 0.5) / (double)rs.ImageWidth - 1) * imageAspectRatio * scale;
                     double py = (1 - 2 * (y + 0.5) / (double)rs.ImageHeight) * scale;
-                    newRay.Direction = Vector3.Normalize(new Vector3(px, py, -1));
-                    newRay.Distance = double.PositiveInfinity;
                     int depth = rs.MaxDepth;
-
-
-                    Vector3 dir = new Vector3();
-                    //dir = Matrix4x4.MultiplyVector(newRay.Direction, CameraToWorld);
-                    dir = Matrix4x4.MultiplyVector(new Vector3(px, py, -1), CameraToWorld);
-                    dir = Vector3.Normalize(dir);
-                    Ray superRay = new Ray();
-                    superRay.Origin = SceneCamera.position;
-                    superRay.Direction = dir;
-                    superRay.Distance = double.PositiveInfinity;
-                    pixelColor = CastRay(superRay, CurrentScene, ref depth);
+                    newRay.Direction = Matrix4x4.MultiplyVector(new Vector3(px, py, -1), CameraToWorld);
+                    newRay.Direction = Vector3.Normalize(newRay.Direction);
+                    newRay.Distance = double.PositiveInfinity;
+                    pixelColor = CastRay(newRay, CurrentScene, ref depth);
 
                     RenderImage.SetPixel(x, y, pixelColor.ToDrawingColor());
                     if (x == 0) RenderBox.Refresh();
@@ -85,52 +91,15 @@ namespace ProGenTracer.Rendering
             rs.RenderTime = RenderTimer.Elapsed.ToString();
         }
 
-        Matrix4x4 LookAt(Vector3 from, Vector3 to)
-        {
-            Vector3 forward = Vector3.Normalize(from - to);
-            Vector3 right = Vector3.Cross(Vector3.Normalize(new Vector3(0,1,0)), forward);
-            Vector3 up = Vector3.Cross(forward, right);
-
-            Matrix4x4 camToWorld = new Matrix4x4();
-
-            camToWorld.m[0] = right.x;
-            camToWorld.m[1] = right.y;
-            camToWorld.m[2] = right.z;
-            camToWorld.m[4] = up.x;
-            camToWorld.m[5] = up.y;
-            camToWorld.m[6] = up.z;
-            camToWorld.m[8] = forward.x;
-            camToWorld.m[9] = forward.y;
-            camToWorld.m[10] = forward.z;
-            camToWorld.m[12] = from.x;
-            camToWorld.m[13] = from.y;
-            camToWorld.m[14] = from.z;
-
-            return camToWorld;
-        }
-
-        public double deg2rad(double degree)
-        {
-            return degree * Math.PI / 180;
-        }
-
         public void GenerateScene(Scene scene)
         {
+            // Lists used in mesh generation
             List<Vector3> newVertices = new List<Vector3>();
             List<Vector2> newUVs = new List<Vector2>();
             List<int> newTriangles = new List<int>();
             List<Utilities.Color> newColors = new List<Utilities.Color>();
 
-            Texture newTexture = new Texture(2, 2);
-            newTexture.PixelMap[0] = Utilities.Color.Set(1.0, 0.0, 0.0);
-            newTexture.PixelMap[1] = Utilities.Color.Set(0.0, 1.0, 0.0);
-            newTexture.PixelMap[2] = Utilities.Color.Set(0.0, 0.0, 1.0);
-            newTexture.PixelMap[3] = Utilities.Color.Set(1.0, 0.0, 1.0);
-            //newTexture.PixelMap[4] = Utilities.Color.Set(0.0, 1.0, 0.0);
-            //newTexture.PixelMap[5] = Utilities.Color.Set(0.0, 0.0, 1.0);
-            //newTexture.PixelMap[6] = Utilities.Color.Set(0.0, 1.0, 1.0);
-            //newTexture.PixelMap[7] = Utilities.Color.Set(1.0, 0.0, 1.0);
-            //newTexture.PixelMap[8] = Utilities.Color.Set(0.75, 1.0, 1.0);
+            Texture newTexture = TextureLoader.LoadBitmap("Resources/Textures/flat.bmp");
 
             int index = 0;
             Vector3 size;
@@ -168,7 +137,7 @@ namespace ProGenTracer.Rendering
             newUVs.Add(new Utilities.Vector2(1, 0));
             newUVs.Add(new Utilities.Vector2(0, 1));
             newUVs.Add(new Utilities.Vector2(1, 1));
-            newColors.Add(new Utilities.Color(1, 1, 1));
+            newColors.Add(new Utilities.Color(0.2, 0.2, 0.2));
             newColors.Add(new Utilities.Color(1, 1, 1));
             newColors.Add(new Utilities.Color(1, 1, 1));
             newColors.Add(new Utilities.Color(1, 1, 1));
@@ -345,7 +314,7 @@ namespace ProGenTracer.Rendering
             //Scene Object 3
             SceneObject s3 = new SceneObject();
             s3.Position = new Vector3(0, 1, 0);
-            Mesh mesh2 = GenerateSphere();
+            Mesh mesh2 = MeshBuilder.GenerateSphere();
             Material mat2 = new Material();
             mat2.MainColor = Utilities.Color.Set(0.0, 1.0, 0.0);
             mat2.Type = 3;
@@ -365,66 +334,6 @@ namespace ProGenTracer.Rendering
             newlight.Intensity = 4.0;
             newlight.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
             scene.Lights.Add(newlight);
-        }
-
-
-        public Mesh GenerateSphere()
-        {
-            Mesh newMesh = new Mesh();
-            List<Vector3> newVertices = new List<Vector3>();
-            List<int> newTriangles = new List<int>();
-
-            double SphereRadius = 0.5;
-
-            double dTheta = (2 * Math.PI) / 16;
-            double dPhi = (Math.PI) / 8;
-
-            int index = 0;
-
-            for (int i = 0; i < 16; i++)         //theta
-            {
-                for (int j = 0; j < 8; j++)      //phi
-                {
-                    double x;
-                    double y;
-                    double z;
-
-                    x = SphereRadius * Math.Sin(i * dTheta) * Math.Cos(j * dPhi);
-                    y = SphereRadius * Math.Cos(i * dTheta);
-                    z = SphereRadius * Math.Sin(i * dTheta) * Math.Sin(j * dPhi);
-                    newVertices.Add(new Vector3(x, y, z));
-
-                    x = SphereRadius * Math.Sin((i + 1) * dTheta) * Math.Cos(j * dPhi);
-                    y = SphereRadius * Math.Cos((i + 1) * dTheta);
-                    z = SphereRadius * Math.Sin((i + 1) * dTheta) * Math.Sin(j * dPhi);
-                    newVertices.Add(new Vector3(x, y, z));
-
-                    x = SphereRadius * Math.Sin((i + 1) * dTheta) * Math.Cos((j + 1) * dPhi);
-                    y = SphereRadius * Math.Cos((i + 1) * dTheta);
-                    z = SphereRadius * Math.Sin((i + 1) * dTheta) * Math.Sin((j + 1) * dPhi);
-                    newVertices.Add(new Vector3(x, y, z));
-
-                    x = SphereRadius * Math.Sin(i * dTheta) * Math.Cos((j + 1) * dPhi);
-                    y = SphereRadius * Math.Cos(i * dTheta);
-                    z = SphereRadius * Math.Sin(i * dTheta) * Math.Sin((j + 1) * dPhi);
-                    newVertices.Add(new Vector3(x, y, z));
-
-                    index = newVertices.Count - 4;
-
-                    newTriangles.Add(index);
-                    newTriangles.Add(index + 1);
-                    newTriangles.Add(index + 2);
-                    newTriangles.Add(index);
-                    newTriangles.Add(index + 2);
-                    newTriangles.Add(index + 3);
-
-                }
-            }
-
-            newMesh.SetVertices(newVertices);
-            newMesh.SetTriangles(newTriangles);
-
-            return newMesh;
         }
 
         public Utilities.Color CastRay(Ray ray, Scene scene, ref int depth)
@@ -486,9 +395,9 @@ namespace ProGenTracer.Rendering
                     Vector3 L = -scene.Lights[0].Direction;
                     double distance = Vector3.Magnitude(scene.Lights[0].Position - hit.hitPoint);
                     double dist = 1 / (distance * distance);
-                    double cosTheta = Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
+                    double cosTheta = MathExtensions.Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
                     Vector3 R = Vector3.Reflect(-L, Normal);
-                    double cosAlpha = Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
+                    double cosAlpha = MathExtensions.Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
                     Utilities.Color ambient = (AmbientColor * mat.MainColor);
 
                     Utilities.Color textureColor = Utilities.Color.Set(1.0, 1.0, 1.0);
@@ -512,9 +421,9 @@ namespace ProGenTracer.Rendering
                         int ty = (int)(tex.y * mat.MainTexture.Height);
                         textureColor = mat.MainTexture.GetPixel(tx, ty);
                     }
-                    Utilities.Color diffuse = vertexColor * textureColor * mat.MainColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
+                    Utilities.Color diffuse = vertexColor * textureColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * cosTheta * dist;
                     Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 5) * dist;
-                    newColor = ambient + diffuse + specular;
+                    newColor = ambient + diffuse;            //ambient + diffuse + SpecularColor;
                 }
             }
             else
@@ -523,11 +432,6 @@ namespace ProGenTracer.Rendering
             }
 
             return newColor;
-        }
-
-        public static double Clamp(double value, double min, double max)
-        {
-            return (value < min) ? min : (value > max) ? max : value;
         }
 
         public RayHit Trace(Scene scene, Ray ray)
@@ -539,7 +443,7 @@ namespace ProGenTracer.Rendering
             bool HitBBox = false;
             int ObjectID = 0;
             
-
+            //Check to find nearest bounding box
             for (int i = 0; i < scene.SceneObjects.Count; i++)
             {
                 //Check bounding box
@@ -547,7 +451,6 @@ namespace ProGenTracer.Rendering
                 Mesh b = scene.SceneObjects[i].BBox.Mesh;
                 Vector3 bPosition = scene.SceneObjects[i].Position;
                 int bIndex = 0;
-                //double cNear = double.PositiveInfinity;
 
                 for (int k = 0; k < numBoxTriangles; k++)
                 {
