@@ -1,4 +1,7 @@
-﻿using System;
+﻿//Created by Joseph Mumford 10/23/2017
+//This file is part of ProGen Tracer which is released under MIT License.  See license.txt for full details.
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,8 +37,6 @@ namespace ProGenTracer.Utilities
             int bitmapSize = 0;                     // Bitmap Width * Bitmap Height * color byte size
             byte[] bitmapData;                      // Pixel data in bitmap image
 
-            bool validBitmap = false;               // Used to determine if file is a valid bitmap image
-
             // Begin reading file
             bitmapHeader[0] = br.ReadChar();
             bitmapHeader[1] = br.ReadChar();
@@ -43,8 +44,6 @@ namespace ProGenTracer.Utilities
             // Validate bitmap file
             if (bitmapHeader[0] == 'B' || bitmapHeader[1] == 'M')
             {
-                validBitmap = true;
-
                 br.ReadInt32(); //2-5
                 br.ReadInt32(); //6-9
                 bitmapDataPos = br.ReadInt32(); //10-13
