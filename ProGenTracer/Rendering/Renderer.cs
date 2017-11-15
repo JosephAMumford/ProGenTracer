@@ -111,7 +111,7 @@ namespace ProGenTracer.Rendering
             //Scene Object 1
             SceneObject so = new SceneObject();
             Mesh newMesh = new Mesh();
-            so.Position = new Utilities.Vector3(0, 2, 0);
+            so.Position = new Utilities.Vector3(0, 1.1, 0);
 
             Material mat = new Material();
             mat.MainColor = Utilities.Color.Set(1.0, 1.0, 1.0);
@@ -331,11 +331,11 @@ namespace ProGenTracer.Rendering
 
             //Light
             Light newlight = new Light();
-            newlight.Position = new Utilities.Vector3(1, 2, 3);
-            newlight.Direction = new Vector3(-0.5, -1, -1);
+            newlight.Position = new Utilities.Vector3(0, 3, 0);
+            newlight.Direction = new Vector3(0, -1, 0);
             newlight.Type = 0;
             newlight.Intensity = 4.0;
-            newlight.LightColor = new Utilities.Color(1.0, 1.0, 0.0);
+            newlight.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
             scene.Lights.Add(newlight);
 
             Light newlight1 = new Light();
@@ -343,8 +343,8 @@ namespace ProGenTracer.Rendering
             newlight1.Direction = new Vector3(-0.5, -1, 1);
             newlight1.Type = 0;
             newlight1.Intensity = 4.0;
-            newlight1.LightColor = new Utilities.Color(0.0, 0.0, 1.0);
-            scene.Lights.Add(newlight1);
+            newlight1.LightColor = new Utilities.Color(1.0, 1.0, 1.0);
+            //scene.Lights.Add(newlight1);
         }
 
         public Utilities.Color CastRay(Ray ray, Scene scene, ref int depth)
@@ -404,33 +404,36 @@ namespace ProGenTracer.Rendering
                 {
                     Utilities.Color ambient = (AmbientColor * mat.MainColor);
 
-                    Utilities.Color textureColor = Utilities.Color.Set(1.0, 1.0, 1.0);
-                    Utilities.Color vertexColor = Utilities.Color.Set(1.0, 1.0, 1.0);
+                    Utilities.Color textureColor = Utilities.Color.Set(0.0, 0.0, 0.0);
+                    Utilities.Color vertexColor = Utilities.Color.Set(0.0, 0.0, 0.0);
 
                     double LightIntesity = 0;
+                    double inShadow = 0;
 
-                    Utilities.Color LightColor = Utilities.Color.Set(0.0, 0.0, 0.0);
+                        Utilities.Color LightColor = Utilities.Color.Set(0.0, 0.0, 0.0);
 
                     for (int i = 0; i < scene.Lights.Count; i++)
                     {
-                        Vector3 L = -scene.Lights[i].Direction;
-                        double distance = Vector3.Magnitude(scene.Lights[i].Position - hit.hitPoint);
-                        double dist = 1 / (distance * distance);
-                        double cosTheta = MathExtensions.Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
-                        Vector3 R = Vector3.Reflect(-L, Normal);
-                        double cosAlpha = MathExtensions.Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
-
                         RayHit shadowHit = new RayHit();
                         Ray shadowRay = new Ray();
                         shadowRay.Origin = hit.hitPoint;
-                        shadowRay.Direction = (scene.Lights[i].Position - hit.hitPoint);
+                        shadowRay.Direction = Vector3.Normalize(scene.Lights[i].Position - hit.hitPoint);
                         shadowRay.Distance = double.PositiveInfinity;
                         shadowHit = Trace(scene, shadowRay);
                         if(shadowHit.isHit == false)
                         {
-                            LightColor += scene.Lights[i].LightColor * scene.Lights[i].Intensity * cosTheta * dist;
-                        }   
+                            inShadow = 1;
+                            Vector3 L = -scene.Lights[i].Direction;
+                            double distance = Vector3.Magnitude(scene.Lights[i].Position - hit.hitPoint);
+                            double dist = 1 / (distance * distance);
+                            double cosTheta = MathExtensions.Clamp(Vector3.Dot(Normal, L), 0.0, 1.0);
+                            Vector3 R = Vector3.Reflect(-L, Normal);
+                            double cosAlpha = MathExtensions.Clamp(Vector3.Dot(Normal, R), 0.0, 1.0);
+
+                            LightColor = scene.Lights[i].LightColor * scene.Lights[i].Intensity * cosTheta * dist;
+                        }  
                     }
+
                     
 
                     if (mat.MainTexture.PixelMap != null)
@@ -451,7 +454,7 @@ namespace ProGenTracer.Rendering
                         int ty = (int)(tex.y * mat.MainTexture.Height);
                         textureColor = mat.MainTexture.GetPixel(tx, ty);
                     }
-                    Utilities.Color diffuse = vertexColor * textureColor * LightColor;
+                    Utilities.Color diffuse = vertexColor * textureColor * LightColor * inShadow;
                     //Utilities.Color specular = SpecularColor * scene.Lights[0].LightColor * scene.Lights[0].Intensity * Math.Pow(cosAlpha, 5) * dist;
                     newColor = ambient + diffuse;            //ambient + diffuse + SpecularColor;
                 }
