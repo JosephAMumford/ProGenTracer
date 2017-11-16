@@ -42,7 +42,7 @@ namespace ProGenTracer
             CurrentRenderSettings.ImageHeight = int.Parse(ImageResY.Text);
             CurrentRenderSettings.ImageWidth = int.Parse(ImageResX.Text);
             CurrentRenderSettings.MaxDepth = 3;
-            CurrentRenderSettings.Bias = 0.00001;
+            CurrentRenderSettings.Bias = 0.0001;
             CurrentRenderSettings.FieldOfView = double.Parse(FovInput.Text);
 
             bitmap = new Bitmap(CurrentRenderSettings.ImageWidth, CurrentRenderSettings.ImageHeight);

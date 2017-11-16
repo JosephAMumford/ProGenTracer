@@ -35,7 +35,7 @@ namespace ProGenTracer.Rendering
         /// <summary>
         /// Material of scene object
         /// </summary>
-        public Material Material;
+        public Material Material = new Material();
         /// <summary>
         /// Boudning box of scene obeject
         /// </summary>
